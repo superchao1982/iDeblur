@@ -7,6 +7,9 @@
 //
 
 #import "ViewController.h"
+#import "gaussfilter.h"
+#import "wienerfilter.h"
+#import "cvWiener2.h"
 
 #ifdef __cplusplus
     #include <opencv2/core/core.hpp>
@@ -22,6 +25,10 @@ using namespace std;
 
 @interface ViewController ()
 
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (nonatomic, assign) NSInteger wienerRadius;
+@property (nonatomic, assign) double noiseValue;
+
 @end
 
 @implementation ViewController
@@ -32,8 +39,173 @@ using namespace std;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+//    Mat onesMat = Mat::ones(2, 2, CV_32FC1)*2;
+//    Mat zerosMat = Mat::zeros(4, 4, CV_32FC1);
+//    
+//    cout<<"Before copying:"<<endl;
+//    cout<<1/onesMat<<endl;
+//
+//    // Copy onesMat to zerosMat. Destination rows [0,4), columns [0,3)
+//    onesMat.copyTo(zerosMat(Range(0,2), Range(0,2)));
+//    
+//    
+//    cout<<"After copying:"<<endl;
+//    cout<<onesMat<<endl<<zerosMat<<endl;
+//    return;
+//
+    Mat img = imread("/Users/santatnt/Desktop/matlab_image.png", IMREAD_UNCHANGED);
+    img.convertTo(img, CV_32FC1);
+    _imageView.image = [self.class imageWithCVMat:img];
     
-    [self _deblurTestFunciton];
+    Mat Yf;
+    dft(img, Yf, cv::DFT_REAL_OUTPUT);
+    
+    /*
+     PSF =
+     
+     0         0         0         0         0    0.0004    0.0090    0.0176    0.0262    0.0347    0.0199
+     0.0346    0.0642    0.0728    0.0814    0.0900    0.0986    0.0900    0.0814    0.0728    0.0642    0.0346
+     0.0199    0.0347    0.0262    0.0176    0.0090    0.0004         0         0         0         0         0
+     */
+    float values[3][11] = {
+                           {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0004f, 0.0090f, 0.0176f, 0.0262f, 0.0347f, 0.0199f},
+                           {0.0346f, 0.0642f, 0.0728f, 0.0814f, 0.0900f, 0.0986f, 0.0900f, 0.0814f, 0.0728f, 0.0642f, 0.0346f},
+                           {0.0199f, 0.0347f, 0.0262f, 0.0176f, 0.0090f, 0.0004f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}
+                          };
+    Mat PSF = Mat(3, 11, CV_32FC1, &values);
+    Mat Hf = Mat::zeros(img.rows, img.cols, CV_32FC1);
+    PSF.copyTo(Hf(Range(0, PSF.rows), Range(0, PSF.cols)));
+    dft(img, Hf, cv::DFT_REAL_OUTPUT);
+    Hf = 1/Hf;
+    cout << Hf.at<float>(1, 2) << endl;
+    
+    Mat Fv;
+    dft(Yf.mul(Hf), Fv, cv::DFT_REAL_OUTPUT);
+    
+    _imageView.image = [self.class imageWithCVMat:Fv];
+    
+    return;
+    Mat planes[] = {Mat_<float>(img), Mat_<float>(img), Mat_<float>(img)};
+    Mat complexI;    //Complex plane to contain the DFT coefficients {[0]-Real,[1]-Img}
+    NSLog(@"chanels %d", img.channels());
+    merge(planes, 1, complexI);
+    
+
+    // Reconstructing original imae from the DFT coefficients
+    Mat invDFT, invDFTcvt;
+    idft(complexI, invDFT, DFT_SCALE | DFT_REAL_OUTPUT ); // Applying IDFT
+    invDFT.convertTo(invDFTcvt, CV_8U);
+    //---
+    
+    Mat src = imread("/Users/santatnt/Desktop/matlab_image.png", IMREAD_UNCHANGED);
+    Mat dst;
+//    cv::Size gaussSize = cv::Size(15,15);
+//    GaussianBlur(src, dst, gaussSize, 5.0f);
+//    [self _showImage:[self.class imageWithCVMat:src] title:@"Gaus"];
+    NSLog(@"chanels - %d, depth- %d", src.channels(), src.depth());
+//    src.convertTo(src, CV_32FC2);
+    NSLog(@"chanels - %d, depth- %d", src.channels(), src.depth());
+    
+//    dft(src, dst, DFT_REAL_OUTPUT);
+    _imageView.image = [self.class imageWithCVMat:src];
+    
+//    Mat matImage1 = cv::cvarrToMat(tmp);
+//    UIImage* image1 = [self.class imageWithCVMat:matImage1];
+//    [self _showImage:image1 title:@"Before"];
+
+//    [self _deblurTestFunciton];
+}
+
+//template< typename T >
+//void sort( T array[], int size );  // прототип: шаблон sort объявлен, но не определён
+//
+//template< typename T >
+//void sort( T array[], int size )   // объявление и определение
+//{
+//    T t;
+//    for (int i = 0; i < size - 1; i++)
+//        for (int j = size - 1; j > i; j--)
+//            if (array[j] < array[j-1])
+//            {
+//                t = array[j];
+//                array[j] = array[j-1];
+//                array[j-1] = t;
+//            }
+//}
+
+string getImgType(int imgTypeInt)
+{
+    int numImgTypes = 35; // 7 base types, with five channel options each (none or C1, ..., C4)
+    
+    int enum_ints[] =       {CV_8U,  CV_8UC1,  CV_8UC2,  CV_8UC3,  CV_8UC4,
+        CV_8S,  CV_8SC1,  CV_8SC2,  CV_8SC3,  CV_8SC4,
+        CV_16U, CV_16UC1, CV_16UC2, CV_16UC3, CV_16UC4,
+        CV_16S, CV_16SC1, CV_16SC2, CV_16SC3, CV_16SC4,
+        CV_32S, CV_32SC1, CV_32SC2, CV_32SC3, CV_32SC4,
+        CV_32F, CV_32FC1, CV_32FC2, CV_32FC3, CV_32FC4,
+        CV_64F, CV_64FC1, CV_64FC2, CV_64FC3, CV_64FC4};
+    
+    string enum_strings[] = {"CV_8U",  "CV_8UC1",  "CV_8UC2",  "CV_8UC3",  "CV_8UC4",
+        "CV_8S",  "CV_8SC1",  "CV_8SC2",  "CV_8SC3",  "CV_8SC4",
+        "CV_16U", "CV_16UC1", "CV_16UC2", "CV_16UC3", "CV_16UC4",
+        "CV_16S", "CV_16SC1", "CV_16SC2", "CV_16SC3", "CV_16SC4",
+        "CV_32S", "CV_32SC1", "CV_32SC2", "CV_32SC3", "CV_32SC4",
+        "CV_32F", "CV_32FC1", "CV_32FC2", "CV_32FC3", "CV_32FC4",
+        "CV_64F", "CV_64FC1", "CV_64FC2", "CV_64FC3", "CV_64FC4"};
+    
+    for(int i=0; i<numImgTypes; i++)
+    {
+        if(imgTypeInt == enum_ints[i]) return enum_strings[i];
+    }
+    return "unknown image type";
+}
+
+#pragma mark -
+#pragma mark - Actions
+
+- (IBAction)testButtonAction:(id)sender
+{
+    Mat src = imread("/Users/santatnt/Desktop/matlab_image.png", CV_LOAD_IMAGE_UNCHANGED);
+    Mat dst;
+    src.convertTo(src, CV_BGR2GRAY);
+
+    dft(src, dst, DFT_REAL_OUTPUT);
+    
+    _imageView.image = [self.class imageWithCVMat:dst];
+}
+
+- (IBAction)slider0ValueChanged:(UISlider *)slider
+{
+    _wienerRadius = slider.value;
+    
+    IplImage *tmp = cvLoadImage("/Users/santatnt/Desktop/opecv_test_image_original.png");
+    IplImage *tmp2 = cvCreateImage(cvSize(tmp->width, tmp->height), IPL_DEPTH_8U, 1);
+    cvCvtColor(tmp, tmp2, CV_RGB2GRAY);
+    cvWiener2(tmp2, tmp2, _wienerRadius, _wienerRadius, _noiseValue);
+
+    Mat matImage1 = cv::cvarrToMat(tmp2);
+    UIImage* image1 = [self.class imageWithCVMat:matImage1];
+    _imageView.image = image1;
+    
+    cvReleaseImage(&tmp);
+    cvReleaseImage(&tmp2);
+}
+
+- (IBAction)slider1ValueChanged:(UISlider *)slider {
+    _noiseValue = slider.value;
+    
+    IplImage *tmp = cvLoadImage("/Users/santatnt/Desktop/opecv_test_image_original.png");
+    IplImage *tmp2 = cvCreateImage(cvSize(tmp->width, tmp->height), IPL_DEPTH_8U, 1);
+    cvCvtColor(tmp, tmp2, CV_RGB2GRAY);
+    cvWiener2(tmp2, tmp2, _wienerRadius, _wienerRadius, _noiseValue);
+    
+    Mat matImage1 = cv::cvarrToMat(tmp2);
+    UIImage* image1 = [self.class imageWithCVMat:matImage1];
+    _imageView.image = image1;
+    
+    cvReleaseImage(&tmp);
+    cvReleaseImage(&tmp2);
 }
 
 #pragma mark - 
@@ -86,9 +258,7 @@ using namespace std;
     int x,y;
     long double PI_F=3.14159265358979;
     
-    //long double SIGMA = 0.84089642;
     long double SIGMA = 0.014089642;
-    //long double SIGMA = 0.00184089642;
     long double EPS = 2.718;
     long double numerator,denominator;
     long double value;
@@ -164,7 +334,7 @@ using namespace std;
     
     Mat matImage = cv::cvarrToMat(im);
     UIImage* image = [self.class imageWithCVMat:matImage];
-    [self _showImage:image];
+    [self _showImage:image title:@""];
     
     cvSaveImage("/Users/santatnt/Desktop/opencv_test_image.png", im);
     
@@ -288,7 +458,6 @@ CvMat* cvShowDFT1(IplImage* im, int dft_M, int dft_N,char* src)
 //    cvSaveImage("/Users/santatnt/Desktop/opencv_test_image.png", image_Re);
 }
 
-
 + (UIImage *)imageWithCVMat:(const cv::Mat&)cvMat
 {
     NSData *data = [NSData dataWithBytes:cvMat.data length:cvMat.elemSize() * cvMat.total()];
@@ -354,12 +523,12 @@ CvMat* cvShowDFT1(IplImage* im, int dft_M, int dft_N,char* src)
     return ret;
 }
 
-- (void)_showImage:(UIImage *)wonImage
+- (void)_showImage:(UIImage *)wonImage title:(NSString *)title
 {
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 200, 282)];
     imageView.contentMode=UIViewContentModeScaleAspectFit;
     [imageView setImage:wonImage];
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
                                                         message:@""
                                                        delegate:self
                                               cancelButtonTitle:@"OK"
