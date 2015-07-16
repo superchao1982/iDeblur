@@ -39,22 +39,28 @@ using namespace std;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+//    std::complex<double> c(0.999, 0.0123);
+//    std::complex<double> c0(1.0f, 0.0f);
+//    c = c0/c;
 
-    Mat onesMat0 = Mat::ones(2, 2, CV_32FC1)*2;
-    onesMat0.at<float>(0, 0) = 5;
-    Mat onesMat1 = Mat::ones(2, 2, CV_32FC1)*3;
-    
-    dft(onesMat0, onesMat0, cv::DFT_COMPLEX_OUTPUT | cv::DFT_REAL_OUTPUT);
-    dft(onesMat1, onesMat1, cv::DFT_COMPLEX_OUTPUT | cv::DFT_REAL_OUTPUT);
-    cout << "onesMat0 " << endl << onesMat0 << endl << endl;
-    cout << "onesMat1 " << endl << onesMat1 << endl << endl;
-    
-    Mat m0;
-    cv::mulSpectrums(onesMat0, onesMat1, m0, DFT_ROWS);
-    cout << "onesMat0.*onesMat1 " << endl  << m0 << endl;
-    idft(m0, m0, cv::DFT_SCALE|cv::DFT_REAL_OUTPUT);
-//    dft(m0, m0, cv::DFT_INVERSE|cv::DFT_REAL_OUTPUT);
-    cout << "idft " << endl << m0 << endl << endl;
+//    Mat onesMat0 = Mat::ones(2, 2, CV_32FC1)*2;
+//    onesMat0.at<float>(0, 0) = 5;
+//    Mat onesMat1 = Mat::ones(2, 2, CV_32FC1)*3;
+//    
+//    dft(onesMat0, onesMat0, cv::DFT_COMPLEX_OUTPUT);
+//    dft(onesMat1, onesMat1, cv::DFT_COMPLEX_OUTPUT);
+//    cout << "onesMat0 " << endl << onesMat0 << endl << endl;
+//    cout << "onesMat1 " << endl << onesMat1 << endl << endl;
+//    
+//    Mat m0;
+//    cv::mulSpectrums(onesMat0, onesMat1, m0, DFT_ROWS);
+//    cout << "onesMat0.*onesMat1 " << endl  << m0 << endl;
+//    cout << onesMat0.at<float>(0,0) << " " << onesMat0.at<float>(0,1) << " " << onesMat0.at<float>(0,2) << endl;
+//    divideSpectrum(&m0);
+//    idft(m0, m0, cv::DFT_SCALE|cv::DFT_REAL_OUTPUT);
+////    dft(m0, m0, cv::DFT_INVERSE|cv::DFT_REAL_OUTPUT);
+//    cout << "idft " << endl << m0 << endl << endl;
 
     float values[3][11] = {
         {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0004f, 0.0090f, 0.0176f, 0.0262f, 0.0347f, 0.0199f},
@@ -68,49 +74,53 @@ using namespace std;
     img.convertTo(img, CV_32FC1, 1.0f/255.0f);
     filter2D(img, img, -1, PSF);
 
-    _imageView.image = [self.class imageWithCVMat:img];
-    
+    cout << "img" << img(Range(0, 5), Range(0, 5)) << endl << endl;
+
     Mat Yf;
-    dft(img, Yf, cv::DFT_REAL_OUTPUT | cv::DFT_COMPLEX_OUTPUT);
-    
+    dft(img, Yf, cv::DFT_COMPLEX_OUTPUT);
     cout << "Yf" << Yf(Range(0, 5), Range(0, 5)) << endl << endl;
     
     Mat Hf = Mat::zeros(img.rows, img.cols, CV_32FC1);
     PSF.copyTo(Hf(Range(0, PSF.rows), Range(0, PSF.cols)));
-    dft(Hf, Hf, cv::DFT_REAL_OUTPUT | cv::DFT_COMPLEX_OUTPUT);
+    dft(Hf, Hf, cv::DFT_COMPLEX_OUTPUT);
     cout <<"PSF " << PSF << endl << endl;;
     cout << "Hf " << Hf(Range(0, 5), Range(0, 5)) << endl << endl;
+
+    divideSpectrum(&Hf);
     
-    Hf = 1.0f/Hf;
-    cout << "1/Hf " << Hf(Range(0, 5), Range(0, 5)) << endl;
-    
+    cout << "Hf " << Hf(Range(0, 5), Range(0, 5)) << endl << endl;
+
     Mat Fv;
     cv::mulSpectrums(Yf, Hf, Fv, DFT_ROWS);
     cout << "Hf " << Fv(Range(0, 5), Range(0, 5)) << endl << endl;
     
-    idft(Fv, Fv, cv::DFT_SCALE | cv::DFT_REAL_OUTPUT);
-    
+    idft(Fv, Fv, cv::DFT_REAL_OUTPUT | cv::DFT_SCALE);
+
     Fv.convertTo(Fv, CV_32FC1, 255.0f);
+
+//    dft(img, img, cv::DFT_COMPLEX_OUTPUT);
+//    idft(img, img, cv::DFT_REAL_OUTPUT | cv::DFT_SCALE);
+//    img.convertTo(img, CV_32FC1, 255.0f);
+    
     imwrite("/Users/santatnt/Desktop/test.png", Fv);
     _imageView.image = [self.class imageWithCVMat:Fv];
 }
 
-//template< typename T >
-//void sort( T array[], int size );  // прототип: шаблон sort объявлен, но не определён
-//
-//template< typename T >
-//void sort( T array[], int size )   // объявление и определение
-//{
-//    T t;
-//    for (int i = 0; i < size - 1; i++)
-//        for (int j = size - 1; j > i; j--)
-//            if (array[j] < array[j-1])
-//            {
-//                t = array[j];
-//                array[j] = array[j-1];
-//                array[j-1] = t;
-//            }
-//}
+void divideSpectrum(Mat* array)
+{
+    for (int i = 0; i < (*array).rows; i++) {
+        for (int j = 0; j < (*array).cols*2; j+=2) {
+            std::complex<float> c0(1.0f, 0.0f);
+            float a = (*array).at<float>(i, j);
+            float b = (*array).at<float>(i, j+1);
+            std::complex<float> c1(a, b);
+            
+            std::complex<float> c2 = c0/c1;
+            (*array).at<float>(i, j) = c2.real();
+            (*array).at<float>(i, j+1) = c2.imag();
+        }
+    }
+}
 
 string getImgType(int imgTypeInt)
 {
