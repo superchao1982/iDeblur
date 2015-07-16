@@ -16,6 +16,7 @@
     #import <opencv2/opencv.hpp>
     #import <opencv2/imgproc/imgproc_c.h>
     #import <opencv2/ml/ml.hpp>
+    #import <opencv2/highgui.hpp>
 #endif
 
 using namespace cv;
@@ -40,69 +41,59 @@ using namespace std;
 {
     [super viewDidLoad];
     
-//    std::complex<double> c(0.999, 0.0123);
-//    std::complex<double> c0(1.0f, 0.0f);
-//    c = c0/c;
-
-//    Mat onesMat0 = Mat::ones(2, 2, CV_32FC1)*2;
-//    onesMat0.at<float>(0, 0) = 5;
-//    Mat onesMat1 = Mat::ones(2, 2, CV_32FC1)*3;
-//    
-//    dft(onesMat0, onesMat0, cv::DFT_COMPLEX_OUTPUT);
-//    dft(onesMat1, onesMat1, cv::DFT_COMPLEX_OUTPUT);
-//    cout << "onesMat0 " << endl << onesMat0 << endl << endl;
-//    cout << "onesMat1 " << endl << onesMat1 << endl << endl;
-//    
-//    Mat m0;
-//    cv::mulSpectrums(onesMat0, onesMat1, m0, DFT_ROWS);
-//    cout << "onesMat0.*onesMat1 " << endl  << m0 << endl;
-//    cout << onesMat0.at<float>(0,0) << " " << onesMat0.at<float>(0,1) << " " << onesMat0.at<float>(0,2) << endl;
-//    divideSpectrum(&m0);
-//    idft(m0, m0, cv::DFT_SCALE|cv::DFT_REAL_OUTPUT);
-////    dft(m0, m0, cv::DFT_INVERSE|cv::DFT_REAL_OUTPUT);
-//    cout << "idft " << endl << m0 << endl << endl;
-
     float values[3][11] = {
         {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0004f, 0.0090f, 0.0176f, 0.0262f, 0.0347f, 0.0199f},
         {0.0346f, 0.0642f, 0.0728f, 0.0814f, 0.0900f, 0.0986f, 0.0900f, 0.0814f, 0.0728f, 0.0642f, 0.0346f},
         {0.0199f, 0.0347f, 0.0262f, 0.0176f, 0.0090f, 0.0004f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}
     };
-    float values0[3][3]= {{0, 0.2, 0}, {0, 1, 0}, {0, 0, 0}};
-    Mat PSF = Mat(3, 3, CV_32FC1, &values0);
+    float PSFValues[3][3]= {{0.0f, 0.6f, 0.0f}, {0.0f, 1.0f, 0.0f}, {0.3f, 0.7f, 0.1f}};
+    Mat PSF = Mat(3, 11, CV_32FC1, &values);
+    cout << "PSF\n" << PSF << endl << endl;
+    
+    float ImageValues[3][3] = {{8.0, 1.0, 6.0}, {3.0, 5.0, 7.0}, {4.0, 9.0, 2.0}};
+//    Mat img = Mat(3, 3, CV_32FC1, &ImageValues);
+//    cout << "original image\n" << img << endl << endl;
     
     Mat img = imread("/Users/santatnt/Documents/MATLAB/lena1.png", IMREAD_GRAYSCALE);
-    filter2D(img, img, -1, PSF);
+    filter2D(img, img, -1, PSF, cv::Point(-1,-1), 0, BORDER_CONSTANT);
     imwrite("/Users/santatnt/Desktop/blurred.png", img);
     img.convertTo(img, CV_32FC1, 1.0f/255.0f);
 
-    cout << "img" << img(Range(0, 5), Range(0, 5)) << endl << endl;
+    cout << "blurred img\n" << img(Range(0, 3), Range(0, 3)) << endl << endl;
 
     Mat Yf;
     dft(img, Yf, cv::DFT_COMPLEX_OUTPUT);
-    cout << "Yf" << Yf(Range(0, 5), Range(0, 5)) << endl << endl;
+    cout << "Yf\n" << Yf(Range(0, 3), Range(0, 3)) << endl << endl;
     
     Mat Hf = Mat::zeros(img.rows, img.cols, CV_32FC1);
     PSF.copyTo(Hf(Range(0, PSF.rows), Range(0, PSF.cols)));
     dft(Hf, Hf, cv::DFT_COMPLEX_OUTPUT);
-    cout <<"PSF " << PSF << endl << endl;;
-    cout << "Hf " << Hf(Range(0, 5), Range(0, 5)) << endl << endl;
-
-    reverseComplexSpectrum(&Hf);
+    cout <<"PSF\n" << PSF << endl << endl;;
+    cout << "Hf\n" << Hf(Range(0, 3), Range(0, 3)) << endl << endl;
     
-    cout << "Hf " << Hf(Range(0, 5), Range(0, 5)) << endl << endl;
+    Mat xHf0;
+    cv::mulSpectrums(Hf, Hf, xHf0, DFT_ROWS, true);
+    Mat xHf1;
+    cv::mulSpectrums(Hf, Hf, xHf1, DFT_ROWS, true);
+    xHf1 = xHf1 + 0.001f;
+    xHf0 = xHf0.mul(1.0/xHf1);
+    
+    reverseComplexSpectrum(&Hf);
+    cout << "1./Hf\n " << Hf(Range(0, 3), Range(0, 3)) << endl << endl;
 
+    Mat xHf2;
+    cv::mulSpectrums(Hf, xHf0, xHf2, DFT_ROWS);
+    
     Mat Fv;
-    cv::mulSpectrums(Yf, Hf, Fv, DFT_ROWS);
-    cout << "Hf " << Fv(Range(0, 5), Range(0, 5)) << endl << endl;
+    cv::mulSpectrums(Yf, xHf2, Fv, DFT_ROWS);
+    cout << "Ff\n" << Fv(Range(0, 3), Range(0, 3)) << endl << endl;
     
     idft(Fv, Fv, cv::DFT_REAL_OUTPUT | cv::DFT_SCALE);
 
+    cout << "ex\n" << Fv(Range(0, 3), Range(0, 3)) << endl << endl;
+
     Fv.convertTo(Fv, CV_32FC1, 255.0f);
 
-//    dft(img, img, cv::DFT_COMPLEX_OUTPUT);
-//    idft(img, img, cv::DFT_REAL_OUTPUT | cv::DFT_SCALE);
-//    img.convertTo(img, CV_32FC1, 255.0f);
-    
     imwrite("/Users/santatnt/Desktop/deblurred.png", Fv);
     _imageView.image = [self.class imageWithCVMat:Fv];
 }
@@ -148,6 +139,56 @@ string getImgType(int imgTypeInt)
         if(imgTypeInt == enum_ints[i]) return enum_strings[i];
     }
     return "unknown image type";
+}
+
+- (void)inverseAlgorithmTemp
+{
+    float values[3][11] = {
+        {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0004f, 0.0090f, 0.0176f, 0.0262f, 0.0347f, 0.0199f},
+        {0.0346f, 0.0642f, 0.0728f, 0.0814f, 0.0900f, 0.0986f, 0.0900f, 0.0814f, 0.0728f, 0.0642f, 0.0346f},
+        {0.0199f, 0.0347f, 0.0262f, 0.0176f, 0.0090f, 0.0004f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}
+    };
+    float PSFValues[3][3]= {{0.0f, 0.6f, 0.0f}, {0.0f, 1.0f, 0.0f}, {0.3f, 0.7f, 0.1f}};
+    Mat PSF = Mat(3, 11, CV_32FC1, &values);
+    cout << "PSF\n" << PSF << endl << endl;
+    
+    float ImageValues[3][3] = {{8.0, 1.0, 6.0}, {3.0, 5.0, 7.0}, {4.0, 9.0, 2.0}};
+    //    Mat img = Mat(3, 3, CV_32FC1, &ImageValues);
+    //    cout << "original image\n" << img << endl << endl;
+    
+    Mat img = imread("/Users/santatnt/Documents/MATLAB/lena1.png", IMREAD_GRAYSCALE);
+    filter2D(img, img, -1, PSF, cv::Point(-1,-1), 0, BORDER_CONSTANT);
+    imwrite("/Users/santatnt/Desktop/blurred.png", img);
+    img.convertTo(img, CV_32FC1, 1.0f/255.0f);
+    
+    cout << "blurred img\n" << img(Range(0, 3), Range(0, 3)) << endl << endl;
+    
+    Mat Yf;
+    dft(img, Yf, cv::DFT_COMPLEX_OUTPUT);
+    cout << "Yf\n" << Yf(Range(0, 3), Range(0, 3)) << endl << endl;
+    
+    Mat Hf = Mat::zeros(img.rows, img.cols, CV_32FC1);
+    PSF.copyTo(Hf(Range(0, PSF.rows), Range(0, PSF.cols)));
+    dft(Hf, Hf, cv::DFT_COMPLEX_OUTPUT);
+    cout <<"PSF\n" << PSF << endl << endl;;
+    cout << "Hf\n" << Hf(Range(0, 3), Range(0, 3)) << endl << endl;
+    
+    reverseComplexSpectrum(&Hf);
+    
+    cout << "1./Hf\n " << Hf(Range(0, 3), Range(0, 3)) << endl << endl;
+    
+    Mat Fv;
+    cv::mulSpectrums(Yf, Hf, Fv, DFT_ROWS);
+    cout << "Ff\n" << Fv(Range(0, 3), Range(0, 3)) << endl << endl;
+    
+    idft(Fv, Fv, cv::DFT_REAL_OUTPUT | cv::DFT_SCALE);
+    
+    cout << "ex\n" << Fv(Range(0, 3), Range(0, 3)) << endl << endl;
+    
+    Fv.convertTo(Fv, CV_32FC1, 255.0f);
+    
+    imwrite("/Users/santatnt/Desktop/deblurred.png", Fv);
+    _imageView.image = [self.class imageWithCVMat:Fv];
 }
 
 #pragma mark -
