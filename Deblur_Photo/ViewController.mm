@@ -40,81 +40,59 @@ using namespace std;
 {
     [super viewDidLoad];
 
-//    Mat onesMat = Mat::ones(2, 2, CV_32FC1)*2;
-//    Mat zerosMat = Mat::zeros(4, 4, CV_32FC1);
-//    
-//    cout<<"Before copying:"<<endl;
-//    cout<<1/onesMat<<endl;
-//
-//    // Copy onesMat to zerosMat. Destination rows [0,4), columns [0,3)
-//    onesMat.copyTo(zerosMat(Range(0,2), Range(0,2)));
-//    
-//    
-//    cout<<"After copying:"<<endl;
-//    cout<<onesMat<<endl<<zerosMat<<endl;
-//    return;
-//
-    Mat img = imread("/Users/santatnt/Desktop/matlab_image.png", IMREAD_UNCHANGED);
-    img.convertTo(img, CV_32FC1);
+    Mat onesMat0 = Mat::ones(2, 2, CV_32FC1)*2;
+    onesMat0.at<float>(0, 0) = 5;
+    Mat onesMat1 = Mat::ones(2, 2, CV_32FC1)*3;
+    
+    dft(onesMat0, onesMat0, cv::DFT_COMPLEX_OUTPUT | cv::DFT_REAL_OUTPUT);
+    dft(onesMat1, onesMat1, cv::DFT_COMPLEX_OUTPUT | cv::DFT_REAL_OUTPUT);
+    cout << "onesMat0 " << endl << onesMat0 << endl << endl;
+    cout << "onesMat1 " << endl << onesMat1 << endl << endl;
+    
+    Mat m0;
+    cv::mulSpectrums(onesMat0, onesMat1, m0, DFT_ROWS);
+    cout << "onesMat0.*onesMat1 " << endl  << m0 << endl;
+    idft(m0, m0, cv::DFT_SCALE|cv::DFT_REAL_OUTPUT);
+//    dft(m0, m0, cv::DFT_INVERSE|cv::DFT_REAL_OUTPUT);
+    cout << "idft " << endl << m0 << endl << endl;
+
+    float values[3][11] = {
+        {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0004f, 0.0090f, 0.0176f, 0.0262f, 0.0347f, 0.0199f},
+        {0.0346f, 0.0642f, 0.0728f, 0.0814f, 0.0900f, 0.0986f, 0.0900f, 0.0814f, 0.0728f, 0.0642f, 0.0346f},
+        {0.0199f, 0.0347f, 0.0262f, 0.0176f, 0.0090f, 0.0004f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}
+    };
+    float values0[3][3]= {{0, 0, 0}, {0, 1, 0}, {0, 0, 0}};
+    Mat PSF = Mat(3, 3, CV_32FC1, &values0);
+    
+    Mat img = imread("/Users/santatnt/Documents/MATLAB/lena1.png", IMREAD_GRAYSCALE);
+    img.convertTo(img, CV_32FC1, 1.0f/255.0f);
+    filter2D(img, img, -1, PSF);
+
     _imageView.image = [self.class imageWithCVMat:img];
     
     Mat Yf;
-    dft(img, Yf, cv::DFT_REAL_OUTPUT);
+    dft(img, Yf, cv::DFT_REAL_OUTPUT | cv::DFT_COMPLEX_OUTPUT);
     
-    /*
-     PSF =
-     
-     0         0         0         0         0    0.0004    0.0090    0.0176    0.0262    0.0347    0.0199
-     0.0346    0.0642    0.0728    0.0814    0.0900    0.0986    0.0900    0.0814    0.0728    0.0642    0.0346
-     0.0199    0.0347    0.0262    0.0176    0.0090    0.0004         0         0         0         0         0
-     */
-    float values[3][11] = {
-                           {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0004f, 0.0090f, 0.0176f, 0.0262f, 0.0347f, 0.0199f},
-                           {0.0346f, 0.0642f, 0.0728f, 0.0814f, 0.0900f, 0.0986f, 0.0900f, 0.0814f, 0.0728f, 0.0642f, 0.0346f},
-                           {0.0199f, 0.0347f, 0.0262f, 0.0176f, 0.0090f, 0.0004f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}
-                          };
-    Mat PSF = Mat(3, 11, CV_32FC1, &values);
+    cout << "Yf" << Yf(Range(0, 5), Range(0, 5)) << endl << endl;
+    
     Mat Hf = Mat::zeros(img.rows, img.cols, CV_32FC1);
     PSF.copyTo(Hf(Range(0, PSF.rows), Range(0, PSF.cols)));
-    dft(img, Hf, cv::DFT_REAL_OUTPUT);
-    Hf = 1/Hf;
-    cout << Hf.at<float>(1, 2) << endl;
+    dft(Hf, Hf, cv::DFT_REAL_OUTPUT | cv::DFT_COMPLEX_OUTPUT);
+    cout <<"PSF " << PSF << endl << endl;;
+    cout << "Hf " << Hf(Range(0, 5), Range(0, 5)) << endl << endl;
+    
+    Hf = 1.0f/Hf;
+    cout << "1/Hf " << Hf(Range(0, 5), Range(0, 5)) << endl;
     
     Mat Fv;
-    dft(Yf.mul(Hf), Fv, cv::DFT_REAL_OUTPUT);
+    cv::mulSpectrums(Yf, Hf, Fv, DFT_ROWS);
+    cout << "Hf " << Fv(Range(0, 5), Range(0, 5)) << endl << endl;
     
+    idft(Fv, Fv, cv::DFT_SCALE | cv::DFT_REAL_OUTPUT);
+    
+    Fv.convertTo(Fv, CV_32FC1, 255.0f);
+    imwrite("/Users/santatnt/Desktop/test.png", Fv);
     _imageView.image = [self.class imageWithCVMat:Fv];
-    
-    return;
-    Mat planes[] = {Mat_<float>(img), Mat_<float>(img), Mat_<float>(img)};
-    Mat complexI;    //Complex plane to contain the DFT coefficients {[0]-Real,[1]-Img}
-    NSLog(@"chanels %d", img.channels());
-    merge(planes, 1, complexI);
-    
-
-    // Reconstructing original imae from the DFT coefficients
-    Mat invDFT, invDFTcvt;
-    idft(complexI, invDFT, DFT_SCALE | DFT_REAL_OUTPUT ); // Applying IDFT
-    invDFT.convertTo(invDFTcvt, CV_8U);
-    //---
-    
-    Mat src = imread("/Users/santatnt/Desktop/matlab_image.png", IMREAD_UNCHANGED);
-    Mat dst;
-//    cv::Size gaussSize = cv::Size(15,15);
-//    GaussianBlur(src, dst, gaussSize, 5.0f);
-//    [self _showImage:[self.class imageWithCVMat:src] title:@"Gaus"];
-    NSLog(@"chanels - %d, depth- %d", src.channels(), src.depth());
-//    src.convertTo(src, CV_32FC2);
-    NSLog(@"chanels - %d, depth- %d", src.channels(), src.depth());
-    
-//    dft(src, dst, DFT_REAL_OUTPUT);
-    _imageView.image = [self.class imageWithCVMat:src];
-    
-//    Mat matImage1 = cv::cvarrToMat(tmp);
-//    UIImage* image1 = [self.class imageWithCVMat:matImage1];
-//    [self _showImage:image1 title:@"Before"];
-
-//    [self _deblurTestFunciton];
 }
 
 //template< typename T >
