@@ -8,14 +8,14 @@
 
 #import "ViewController.h"
 
+#import <UIActionSheet+BlocksKit.h>
+
 using namespace cv;
 using namespace std;
 
-@interface ViewController ()
+@interface ViewController ()  < UIImagePickerControllerDelegate, UINavigationControllerDelegate >
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
-@property (nonatomic, assign) NSInteger wienerRadius;
-@property (nonatomic, assign) double noiseValue;
 
 @end
 
@@ -56,6 +56,10 @@ using namespace std;
 
 Mat applyWienerFilterForChannels(Mat img, Mat PSF, float gamma)
 {
+    if (img.channels() > 1) {
+        return img;
+    }
+    
     img.convertTo(img, CV_32FC1, 1.0f/255.0f);
     
     Mat Hf = Mat::zeros(img.rows, img.cols, CV_32FC1);
@@ -111,7 +115,24 @@ void reverseComplexSpectrum(Mat* array)
 
 - (IBAction)choosePhotoButtonAction:(id)sender
 {
-    //
+    __weak typeof(self) weakSelf = self;
+    UIActionSheet* actionSheet = [UIActionSheet bk_actionSheetWithTitle:@""];
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        [actionSheet bk_addButtonWithTitle:@"Take New Photo" handler:^{
+            UIImagePickerController* imagePickerController = [UIImagePickerController new];
+            imagePickerController.delegate = weakSelf;
+            imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+            [weakSelf presentViewController:imagePickerController animated:YES completion:nil];
+        }];
+    }
+    [actionSheet bk_addButtonWithTitle:@"Choose From Library" handler:^{
+        UIImagePickerController* imagePickerController = [UIImagePickerController new];
+        imagePickerController.delegate = weakSelf;
+        imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        [weakSelf presentViewController:imagePickerController animated:YES completion:nil];
+    }];
+    [actionSheet bk_setCancelButtonWithTitle:@"Cancel" handler:nil];
+    [actionSheet showFromTabBar:self.tabBarController.tabBar];
 }
 
 - (IBAction)slider0ValueChanged:(UISlider *)slider
