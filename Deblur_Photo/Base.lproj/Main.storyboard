@@ -13,36 +13,31 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="30" translatesAutoresizingMaskIntoConstraints="NO" id="8yl-vb-a3v">
-                                <rect key="frame" x="35" y="499" width="530" height="31"/>
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.00089999999999999998" minValue="0.0001" maxValue="0.00089999999999999998" translatesAutoresizingMaskIntoConstraints="NO" id="8yl-vb-a3v">
+                                <rect key="frame" x="247" y="686" width="530" height="31"/>
                                 <connections>
                                     <action selector="slider0ValueChanged:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oZc-wY-Z0t"/>
                                 </connections>
                             </slider>
-                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1.0000000000000001e-09" translatesAutoresizingMaskIntoConstraints="NO" id="qux-ug-0mJ">
-                                <rect key="frame" x="35" y="550" width="530" height="31"/>
-                                <connections>
-                                    <action selector="slider1ValueChanged:" destination="BYZ-38-t0r" eventType="touchUpInside" id="D9A-jh-7cr"/>
-                                </connections>
-                            </slider>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mri-Ai-ajy">
-                                <rect key="frame" x="39" y="20" width="522" height="451"/>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IPM-uA-mGz">
-                                <rect key="frame" x="271" y="620" width="74" height="32"/>
-                                <state key="normal" title="Button">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AXT-OU-xAq">
+                                <rect key="frame" x="415" y="48" width="195" height="48"/>
+                                <state key="normal" title="Choose Photo">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="testButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Awm-DW-3Sg"/>
+                                    <action selector="choosePhotoButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gTK-bx-a9L"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mri-Ai-ajy">
+                                <rect key="frame" x="223" y="134" width="578" height="500"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                     <connections>
                         <outlet property="imageView" destination="mri-Ai-ajy" id="8p6-dX-4Ax"/>

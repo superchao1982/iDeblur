@@ -15,9 +15,8 @@
 		5203E4831B53A3D100FB5611 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5203E4811B53A3D100FB5611 /* LaunchScreen.xib */; };
 		5203E48F1B53A3D100FB5611 /* Deblur_PhotoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5203E48E1B53A3D100FB5611 /* Deblur_PhotoTests.m */; };
 		5203E49A1B53A40100FB5611 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5203E4991B53A40100FB5611 /* opencv2.framework */; };
-		5203E4A11B53DC3D00FB5611 /* gaussfilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5203E49D1B53DC3D00FB5611 /* gaussfilter.mm */; };
-		5203E4A21B53DC3D00FB5611 /* wienerfilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5203E49F1B53DC3D00FB5611 /* wienerfilter.mm */; };
-		5203E4A51B53E9CD00FB5611 /* cvWiener2.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5203E4A31B53E9CD00FB5611 /* cvWiener2.mm */; };
+		524E365C1B592A230083A0A5 /* STOpenCVCommonFunctions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 524E365B1B592A230083A0A5 /* STOpenCVCommonFunctions.mm */; };
+		524E36621B592B360083A0A5 /* UIImage+OpenCV.mm in Sources */ = {isa = PBXBuildFile; fileRef = 524E36611B592B360083A0A5 /* UIImage+OpenCV.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,12 +44,11 @@
 		5203E48D1B53A3D100FB5611 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5203E48E1B53A3D100FB5611 /* Deblur_PhotoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Deblur_PhotoTests.m; sourceTree = "<group>"; };
 		5203E4991B53A40100FB5611 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
-		5203E49D1B53DC3D00FB5611 /* gaussfilter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = gaussfilter.mm; sourceTree = "<group>"; };
-		5203E49E1B53DC3D00FB5611 /* gaussfilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gaussfilter.h; sourceTree = "<group>"; };
-		5203E49F1B53DC3D00FB5611 /* wienerfilter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = wienerfilter.mm; sourceTree = "<group>"; };
-		5203E4A01B53DC3D00FB5611 /* wienerfilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wienerfilter.h; sourceTree = "<group>"; };
-		5203E4A31B53E9CD00FB5611 /* cvWiener2.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = cvWiener2.mm; sourceTree = "<group>"; };
-		5203E4A41B53E9CD00FB5611 /* cvWiener2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cvWiener2.h; sourceTree = "<group>"; };
+		524E365A1B592A230083A0A5 /* STOpenCVCommonFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STOpenCVCommonFunctions.h; sourceTree = "<group>"; };
+		524E365B1B592A230083A0A5 /* STOpenCVCommonFunctions.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = STOpenCVCommonFunctions.mm; sourceTree = "<group>"; };
+		524E36601B592B360083A0A5 /* UIImage+OpenCV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+OpenCV.h"; sourceTree = "<group>"; };
+		524E36611B592B360083A0A5 /* UIImage+OpenCV.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "UIImage+OpenCV.mm"; sourceTree = "<group>"; };
+		524E36641B592C010083A0A5 /* PrecompilePrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrecompilePrefixHeader.pch; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,14 +93,10 @@
 			children = (
 				5203E4761B53A3D100FB5611 /* AppDelegate.h */,
 				5203E4771B53A3D100FB5611 /* AppDelegate.m */,
-				5203E4791B53A3D100FB5611 /* ViewController.h */,
-				5203E47A1B53A3D100FB5611 /* ViewController.mm */,
-				5203E49E1B53DC3D00FB5611 /* gaussfilter.h */,
-				5203E49D1B53DC3D00FB5611 /* gaussfilter.mm */,
-				5203E4A01B53DC3D00FB5611 /* wienerfilter.h */,
-				5203E49F1B53DC3D00FB5611 /* wienerfilter.mm */,
-				5203E4A41B53E9CD00FB5611 /* cvWiener2.h */,
-				5203E4A31B53E9CD00FB5611 /* cvWiener2.mm */,
+				524E36641B592C010083A0A5 /* PrecompilePrefixHeader.pch */,
+				524E365D1B592B080083A0A5 /* Controllers */,
+				524E365F1B592B200083A0A5 /* Categories */,
+				524E365E1B592B150083A0A5 /* Other */,
 				5203E47C1B53A3D100FB5611 /* Main.storyboard */,
 				5203E47F1B53A3D100FB5611 /* Images.xcassets */,
 				5203E4811B53A3D100FB5611 /* LaunchScreen.xib */,
@@ -144,6 +138,33 @@
 				5203E4991B53A40100FB5611 /* opencv2.framework */,
 			);
 			name = Libraries;
+			sourceTree = "<group>";
+		};
+		524E365D1B592B080083A0A5 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				5203E4791B53A3D100FB5611 /* ViewController.h */,
+				5203E47A1B53A3D100FB5611 /* ViewController.mm */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		524E365E1B592B150083A0A5 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				524E365A1B592A230083A0A5 /* STOpenCVCommonFunctions.h */,
+				524E365B1B592A230083A0A5 /* STOpenCVCommonFunctions.mm */,
+			);
+			name = Other;
+			sourceTree = "<group>";
+		};
+		524E365F1B592B200083A0A5 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				524E36601B592B360083A0A5 /* UIImage+OpenCV.h */,
+				524E36611B592B360083A0A5 /* UIImage+OpenCV.mm */,
+			);
+			name = Categories;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -247,11 +268,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				5203E47B1B53A3D100FB5611 /* ViewController.mm in Sources */,
-				5203E4A11B53DC3D00FB5611 /* gaussfilter.mm in Sources */,
+				524E36621B592B360083A0A5 /* UIImage+OpenCV.mm in Sources */,
 				5203E4781B53A3D100FB5611 /* AppDelegate.m in Sources */,
-				5203E4A51B53E9CD00FB5611 /* cvWiener2.mm in Sources */,
-				5203E4A21B53DC3D00FB5611 /* wienerfilter.mm in Sources */,
 				5203E4751B53A3D100FB5611 /* main.m in Sources */,
+				524E365C1B592A230083A0A5 /* STOpenCVCommonFunctions.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -383,6 +403,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Deblur_Photo",
 				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/Deblur_Photo/PrecompilePrefixHeader.pch";
 				INFOPLIST_FILE = Deblur_Photo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -397,6 +419,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Deblur_Photo",
 				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/Deblur_Photo/PrecompilePrefixHeader.pch";
 				INFOPLIST_FILE = Deblur_Photo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -456,6 +480,7 @@
 				5203E4941B53A3D100FB5611 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5203E4951B53A3D100FB5611 /* Build configuration list for PBXNativeTarget "Deblur_PhotoTests" */ = {
 			isa = XCConfigurationList;
@@ -464,6 +489,7 @@
 				5203E4971B53A3D100FB5611 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

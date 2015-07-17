@@ -1,0 +1,21 @@
+//
+//  PrecompilePrefixHeader.pch
+//  Deblur_Photo
+//
+//  Created by Yaroslav on 7/17/15.
+//  Copyright (c) 2015 brekhunchenko. All rights reserved.
+//
+
+#ifndef Deblur_Photo_PrecompilePrefixHeader_pch
+#define Deblur_Photo_PrecompilePrefixHeader_pch
+
+#ifdef __cplusplus
+    #include <opencv2/core/core.hpp>
+    #import <opencv2/opencv.hpp>
+    #import <opencv2/imgproc/imgproc_c.h>
+    #import <opencv2/ml/ml.hpp>
+    #import <opencv2/highgui.hpp>
+    #import "UIImage+OpenCV.h"
+#endif
+
+#endif
