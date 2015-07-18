@@ -15,6 +15,9 @@
 		5203E4831B53A3D100FB5611 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5203E4811B53A3D100FB5611 /* LaunchScreen.xib */; };
 		5203E48F1B53A3D100FB5611 /* Deblur_PhotoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5203E48E1B53A3D100FB5611 /* Deblur_PhotoTests.m */; };
 		5203E49A1B53A40100FB5611 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5203E4991B53A40100FB5611 /* opencv2.framework */; };
+		5215299F1B5A6FCE00FF84DF /* STWienerFilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5215299E1B5A6FCE00FF84DF /* STWienerFilter.mm */; };
+		521529A31B5A708B00FF84DF /* STKernel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 521529A21B5A708B00FF84DF /* STKernel.mm */; };
+		521529A91B5A73EF00FF84DF /* STFocusBlurKernel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 521529A81B5A73EF00FF84DF /* STFocusBlurKernel.mm */; };
 		524E365C1B592A230083A0A5 /* STOpenCVCommonFunctions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 524E365B1B592A230083A0A5 /* STOpenCVCommonFunctions.mm */; };
 		524E36621B592B360083A0A5 /* UIImage+OpenCV.mm in Sources */ = {isa = PBXBuildFile; fileRef = 524E36611B592B360083A0A5 /* UIImage+OpenCV.mm */; };
 		525DCAE01B5930F5002E456F /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 525DCADF1B5930F5002E456F /* AVFoundation.framework */; };
@@ -50,6 +53,12 @@
 		5203E48D1B53A3D100FB5611 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5203E48E1B53A3D100FB5611 /* Deblur_PhotoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Deblur_PhotoTests.m; sourceTree = "<group>"; };
 		5203E4991B53A40100FB5611 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
+		5215299D1B5A6FCE00FF84DF /* STWienerFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STWienerFilter.h; sourceTree = "<group>"; };
+		5215299E1B5A6FCE00FF84DF /* STWienerFilter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = STWienerFilter.mm; sourceTree = "<group>"; };
+		521529A11B5A708B00FF84DF /* STKernel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STKernel.h; sourceTree = "<group>"; };
+		521529A21B5A708B00FF84DF /* STKernel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = STKernel.mm; sourceTree = "<group>"; };
+		521529A71B5A73EF00FF84DF /* STFocusBlurKernel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STFocusBlurKernel.h; sourceTree = "<group>"; };
+		521529A81B5A73EF00FF84DF /* STFocusBlurKernel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = STFocusBlurKernel.mm; sourceTree = "<group>"; };
 		524E365A1B592A230083A0A5 /* STOpenCVCommonFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STOpenCVCommonFunctions.h; sourceTree = "<group>"; };
 		524E365B1B592A230083A0A5 /* STOpenCVCommonFunctions.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = STOpenCVCommonFunctions.mm; sourceTree = "<group>"; };
 		524E36601B592B360083A0A5 /* UIImage+OpenCV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+OpenCV.h"; sourceTree = "<group>"; };
@@ -122,6 +131,7 @@
 				5203E4761B53A3D100FB5611 /* AppDelegate.h */,
 				5203E4771B53A3D100FB5611 /* AppDelegate.m */,
 				524E36641B592C010083A0A5 /* PrecompilePrefixHeader.pch */,
+				521529A01B5A6FE500FF84DF /* Models */,
 				524E365D1B592B080083A0A5 /* Controllers */,
 				524E365F1B592B200083A0A5 /* Categories */,
 				524E365E1B592B150083A0A5 /* Other */,
@@ -166,6 +176,19 @@
 				5203E4991B53A40100FB5611 /* opencv2.framework */,
 			);
 			name = Libraries;
+			sourceTree = "<group>";
+		};
+		521529A01B5A6FE500FF84DF /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5215299D1B5A6FCE00FF84DF /* STWienerFilter.h */,
+				5215299E1B5A6FCE00FF84DF /* STWienerFilter.mm */,
+				521529A11B5A708B00FF84DF /* STKernel.h */,
+				521529A21B5A708B00FF84DF /* STKernel.mm */,
+				521529A71B5A73EF00FF84DF /* STFocusBlurKernel.h */,
+				521529A81B5A73EF00FF84DF /* STFocusBlurKernel.mm */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 		524E365D1B592B080083A0A5 /* Controllers */ = {
@@ -345,7 +368,10 @@
 				5203E47B1B53A3D100FB5611 /* ViewController.mm in Sources */,
 				524E36621B592B360083A0A5 /* UIImage+OpenCV.mm in Sources */,
 				5203E4781B53A3D100FB5611 /* AppDelegate.m in Sources */,
+				521529A91B5A73EF00FF84DF /* STFocusBlurKernel.mm in Sources */,
+				521529A31B5A708B00FF84DF /* STKernel.mm in Sources */,
 				5203E4751B53A3D100FB5611 /* main.m in Sources */,
+				5215299F1B5A6FCE00FF84DF /* STWienerFilter.mm in Sources */,
 				524E365C1B592A230083A0A5 /* STOpenCVCommonFunctions.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
