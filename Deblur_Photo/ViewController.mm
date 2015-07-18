@@ -10,7 +10,7 @@
 
 #import <UIActionSheet+BlocksKit.h>
 #import "STWienerFilter.h"
-//#import "STFocusBlurKernel.h"
+#import "STFocusBlurKernel.h"
 
 using namespace cv;
 using namespace std;
@@ -18,6 +18,9 @@ using namespace std;
 @interface ViewController ()  < UIImagePickerControllerDelegate, UINavigationControllerDelegate >
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UIImageView *kernelImageView;
+
+@property (nonatomic, strong) STWienerFilter* wienerFilter;
 
 @end
 
@@ -40,9 +43,10 @@ using namespace std;
     filter2D(img, img, -1, PSF, cv::Point(-1,-1), 0, BORDER_CONSTANT);
     imwrite("/Users/santatnt/Desktop/blurred.png", img);
     
-    STWienerFilter* wienerFilter = [[STWienerFilter alloc] init];
-    wienerFilter.gamma = 0.0f;
-    [wienerFilter applyWienerFilter:&img];
+    _wienerFilter = [[STWienerFilter alloc] init];
+    _wienerFilter.gamma = 0.0f;
+    _wienerFilter.PSF = [[STFocusBlurKernel alloc] initFocusBlurKernelWithRadius:10.0f edgeFeather:70.0f correctionStrength:40.0f];
+    [_wienerFilter applyWienerFilter:&img];
 
     imwrite("/Users/santatnt/Desktop/deblurred.png", img);
 }
@@ -93,6 +97,30 @@ using namespace std;
         [alertView addSubview:imageView];
     }
     [alertView show];
+}
+
+- (IBAction)kernelRadiusValueChanged:(UISlider *)slider
+{
+    float radius = slider.value;
+    [(STFocusBlurKernel *)_wienerFilter.PSF setRadius:radius];
+    
+    _kernelImageView.image = [_wienerFilter.PSF kernelImage];
+}
+
+- (IBAction)kernelEdgeFeatherValueChanged:(UISlider *)slider
+{
+    float edgeFeather = slider.value;
+    [(STFocusBlurKernel *)_wienerFilter.PSF setEdgeFeather:edgeFeather];
+    
+    _kernelImageView.image = [_wienerFilter.PSF kernelImage];
+}
+
+- (IBAction)kernelCorrectionStrengthValueChanged:(UISlider *)slider
+{
+    float correctionStrength = slider.value;
+    [(STFocusBlurKernel *)_wienerFilter.PSF setCorrectionStrength:correctionStrength];
+    
+    _kernelImageView.image = [_wienerFilter.PSF kernelImage];
 }
 
 @end

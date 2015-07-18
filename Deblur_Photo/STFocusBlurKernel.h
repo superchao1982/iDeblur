@@ -15,8 +15,8 @@
                             edgeFeather:(float)edgeFeather
                      correctionStrength:(float)correctionStrength;
 
-@property (nonatomic, assign, readonly) float radius;
-@property (nonatomic, assign, readonly) float edgeFeather;
-@property (nonatomic, assign, readonly) float correctionStrength;
+@property (nonatomic, assign) float radius;
+@property (nonatomic, assign) float edgeFeather;
+@property (nonatomic, assign) float correctionStrength;
 
 @end

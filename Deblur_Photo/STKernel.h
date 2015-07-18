@@ -12,4 +12,6 @@
 
 @property (nonatomic, assign) cv::Mat* kernelMatrix;
 
+- (UIImage *)kernelImage;
+
 @end

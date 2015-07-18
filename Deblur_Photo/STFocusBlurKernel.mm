@@ -29,6 +29,30 @@
 }
 
 #pragma mark -
+#pragma mark - Custom Setters & Getters
+
+- (void)setRadius:(float)radius
+{
+    _radius = radius;
+    
+    [self _updateKernelMatrix];
+}
+
+- (void)setEdgeFeather:(float)edgeFeather
+{
+    _edgeFeather = edgeFeather;
+    
+    [self _updateKernelMatrix];
+}
+
+- (void)setCorrectionStrength:(float)correctionStrength
+{
+    _correctionStrength = correctionStrength;
+    
+    [self _updateKernelMatrix];
+}
+
+#pragma mark -
 #pragma mark - Helpers
 
 - (void)_updateKernelMatrix

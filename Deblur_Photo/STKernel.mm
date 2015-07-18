@@ -10,4 +10,19 @@
 
 @implementation STKernel
 
+- (UIImage *)kernelImage
+{
+//    cv::Mat kernelImage;
+//    std::vector<cv::Mat> channels(3);
+//    
+//    (*self.kernelMatrix).copyTo(channels[0]);
+//    (*self.kernelMatrix).copyTo(channels[1]);
+//    (*self.kernelMatrix).copyTo(channels[2]);
+//    std::cout << *self.kernelMatrix;
+//    
+//    merge(channels, kernelImage);
+    
+    return [UIImage imageWithCVMat:*self.kernelMatrix];
+}
+
 @end
