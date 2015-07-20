@@ -33,13 +33,19 @@ using namespace std;
 - (void)applyWienerFilter:(cv::Mat *)img
 {
     vector<Mat> channels(3);
+    NSLog(@"%@", [STOpenCVCommonFunctions matType2String:img->type()]);
     split(*img, channels);
     
-    channels[0] = applyWienerFilterForChannels(channels[0], self.PSF.kernelMatrix, _gamma);
-    channels[1] = applyWienerFilterForChannels(channels[1], self.PSF.kernelMatrix, _gamma);
-    channels[2] = applyWienerFilterForChannels(channels[2], self.PSF.kernelMatrix, _gamma);
+    channels[0] = applyWienerFilterForChannels(channels[0], _PSF.kernelMatrix, _gamma);
+    channels[1] = applyWienerFilterForChannels(channels[1], _PSF.kernelMatrix, _gamma);
+    channels[2] = applyWienerFilterForChannels(channels[2], _PSF.kernelMatrix, _gamma);
     
     merge(channels, *img);
+    
+    cv::Mat finalImage;
+    img->convertTo(finalImage, CV_8UC3);
+    *img = finalImage;
+    NSLog(@"%@", [STOpenCVCommonFunctions matType2String:img->type()]);
 }
 
 #pragma mark -
@@ -48,9 +54,9 @@ using namespace std;
 cv::Mat applyWienerFilterForChannels(Mat img, const Mat PSF, float gamma)
 {
     if (img.channels() > 1) {
+        NSLog(@"Error: Incorrect number of channels for wiener filter.");
         return img;
     }
-    cout << "PSF" << endl << PSF << endl;
     
     img.convertTo(img, CV_32FC1, 1.0f/255.0f);
     

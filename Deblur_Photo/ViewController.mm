@@ -21,6 +21,7 @@ using namespace std;
 @property (weak, nonatomic) IBOutlet UIImageView *kernelImageView;
 
 @property (nonatomic, strong) STWienerFilter* wienerFilter;
+@property (nonatomic, assign) cv::Mat originalImage;
 
 @end
 
@@ -33,21 +34,20 @@ using namespace std;
 {
     [super viewDidLoad];
     
-    float PSFValues[3][11] = {
-        {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0004f, 0.0090f, 0.0176f, 0.0262f, 0.0347f, 0.0199f},
-        {0.0346f, 0.0642f, 0.0728f, 0.0814f, 0.0900f, 0.0986f, 0.0900f, 0.0814f, 0.0728f, 0.0642f, 0.0346f},
-        {0.0199f, 0.0347f, 0.0262f, 0.0176f, 0.0090f, 0.0004f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}
-    };
-    Mat PSF = Mat(3, 11, CV_32FC1, &PSFValues);
-    Mat img = imread("/Users/santatnt/Documents/MATLAB/lena1.png", IMREAD_UNCHANGED);
-    filter2D(img, img, -1, PSF, cv::Point(-1,-1), 0, BORDER_CONSTANT);
-    imwrite("/Users/santatnt/Desktop/blurred.png", img);
+//    float PSFValues[3][11] = {
+//        {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0004f, 0.0090f, 0.0176f, 0.0262f, 0.0347f, 0.0199f},
+//        {0.0346f, 0.0642f, 0.0728f, 0.0814f, 0.0900f, 0.0986f, 0.0900f, 0.0814f, 0.0728f, 0.0642f, 0.0346f},
+//        {0.0199f, 0.0347f, 0.0262f, 0.0176f, 0.0090f, 0.0004f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}
+//    };
+//    Mat PSF = Mat(3, 11, CV_32FC1, &PSFValues);
+//    Mat img = imread("/Users/santatnt/Documents/MATLAB/lena1.png", IMREAD_UNCHANGED);
+//    filter2D(img, img, -1, PSF, cv::Point(-1,-1), 0, BORDER_CONSTANT);
+//    imwrite("/Users/santatnt/Desktop/blurred.png", img);
     
+    _originalImage = imread("/Users/santatnt/Desktop/3ca5ceda07d41d58574075ddea1a73ad.jpg", IMREAD_UNCHANGED);
+    cv::cvtColor(_originalImage, _originalImage, CV_BGR2RGB);
     _wienerFilter = [[STWienerFilter alloc] init];
-    [_wienerFilter applyWienerFilter:&img];
-    _imageView.image = [UIImage imageWithCVMat:img];
-    
-    imwrite("/Users/santatnt/Desktop/deblurred.png", img);
+    _imageView.image = [UIImage imageWithCVMat:_originalImage];
 }
 
 #pragma mark -
@@ -127,12 +127,11 @@ using namespace std;
 
 - (IBAction)applyButtonAction:(id)sender
 {
-    Mat img = imread("/Users/santatnt/Desktop/3ca5ceda07d41d58574075ddea1a73ad.jpg", IMREAD_UNCHANGED);
     _wienerFilter.gamma = 0.001f;
-    [_wienerFilter applyWienerFilter:&img];
-    _imageView.image = [UIImage imageWithCVMat:img];
+    [_wienerFilter applyWienerFilter:&_originalImage];
+    _imageView.image = [UIImage imageWithCVMat:_originalImage];
     
-    imwrite("/Users/santatnt/Desktop/deblurred.png", img);
+    imwrite("/Users/santatnt/Desktop/deblurred.png", _originalImage);
 }
 
 @end
