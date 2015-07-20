@@ -136,7 +136,9 @@ void normalizeKernel(cv::InputArray input, cv::OutputArray output)
 
 - (UIImage *)kernelImage
 {
-    return [UIImage imageWithCVMat:self.kernelImageMatrix];
+    cv::Mat convertedImage;
+    self.kernelImageMatrix.convertTo(convertedImage, CV_8UC1);
+    return [UIImage imageWithCVMat:convertedImage];
 }
 
 @end

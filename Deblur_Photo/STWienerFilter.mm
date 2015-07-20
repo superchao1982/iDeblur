@@ -33,7 +33,6 @@ using namespace std;
 - (void)applyWienerFilter:(cv::Mat *)img
 {
     vector<Mat> channels(3);
-    NSLog(@"%@", [STOpenCVCommonFunctions matType2String:img->type()]);
     split(*img, channels);
     
     channels[0] = applyWienerFilterForChannels(channels[0], _PSF.kernelMatrix, _gamma);
@@ -45,7 +44,6 @@ using namespace std;
     cv::Mat finalImage;
     img->convertTo(finalImage, CV_8UC3);
     *img = finalImage;
-    NSLog(@"%@", [STOpenCVCommonFunctions matType2String:img->type()]);
 }
 
 #pragma mark -
