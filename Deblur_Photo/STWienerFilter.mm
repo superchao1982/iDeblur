@@ -7,6 +7,7 @@
 //
 
 #import "STWienerFilter.h"
+#import "STFocusBlurKernel.h"
 
 using namespace cv;
 using namespace std;
@@ -21,6 +22,7 @@ using namespace std;
     self = [super init];
     if(self) {
         _gamma = 0.01f;
+        _PSF = [[STFocusBlurKernel alloc] initFocusBlurKernelWithRadius:10.0f edgeFeather:10.0f correctionStrength:10.0f];
     }
     return self;
 }
@@ -33,16 +35,9 @@ using namespace std;
     vector<Mat> channels(3);
     split(*img, channels);
     
-    float PSFValues[3][11] = {
-        {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0004f, 0.0090f, 0.0176f, 0.0262f, 0.0347f, 0.0199f},
-        {0.0346f, 0.0642f, 0.0728f, 0.0814f, 0.0900f, 0.0986f, 0.0900f, 0.0814f, 0.0728f, 0.0642f, 0.0346f},
-        {0.0199f, 0.0347f, 0.0262f, 0.0176f, 0.0090f, 0.0004f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}
-    };
-    Mat PSF = Mat(3, 11, CV_32FC1, &PSFValues);
-    
-    channels[0] = applyWienerFilterForChannels(channels[0], &PSF, _gamma);
-    channels[1] = applyWienerFilterForChannels(channels[1], &PSF, _gamma);
-    channels[2] = applyWienerFilterForChannels(channels[2], &PSF, _gamma);
+    channels[0] = applyWienerFilterForChannels(channels[0], self.PSF.kernelMatrix, _gamma);
+    channels[1] = applyWienerFilterForChannels(channels[1], self.PSF.kernelMatrix, _gamma);
+    channels[2] = applyWienerFilterForChannels(channels[2], self.PSF.kernelMatrix, _gamma);
     
     merge(channels, *img);
 }
@@ -50,16 +45,17 @@ using namespace std;
 #pragma mark -
 #pragma mark - Helpers
 
-cv::Mat applyWienerFilterForChannels(Mat img, const Mat* const PSF, float gamma)
+cv::Mat applyWienerFilterForChannels(Mat img, const Mat PSF, float gamma)
 {
     if (img.channels() > 1) {
         return img;
     }
+    cout << "PSF" << endl << PSF << endl;
     
     img.convertTo(img, CV_32FC1, 1.0f/255.0f);
     
     Mat Hf = Mat::zeros(img.rows, img.cols, CV_32FC1);
-    (*PSF).copyTo(Hf(Range(0, (*PSF).rows), Range(0, (*PSF).cols)));
+    PSF.copyTo(Hf(Range(0, PSF.rows), Range(0, PSF.cols)));
     dft(Hf, Hf, cv::DFT_COMPLEX_OUTPUT);
     
     Mat xHf0;

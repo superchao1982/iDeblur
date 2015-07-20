@@ -10,4 +10,6 @@
 
 @interface STOpenCVCommonFunctions : NSObject
 
++ (NSString *)matType2String:(int)matTypeInt;
+
 @end

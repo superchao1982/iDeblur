@@ -44,10 +44,9 @@ using namespace std;
     imwrite("/Users/santatnt/Desktop/blurred.png", img);
     
     _wienerFilter = [[STWienerFilter alloc] init];
-    _wienerFilter.gamma = 0.0f;
-    _wienerFilter.PSF = [[STFocusBlurKernel alloc] initFocusBlurKernelWithRadius:10.0f edgeFeather:70.0f correctionStrength:40.0f];
     [_wienerFilter applyWienerFilter:&img];
-
+    _imageView.image = [UIImage imageWithCVMat:img];
+    
     imwrite("/Users/santatnt/Desktop/deblurred.png", img);
 }
 
@@ -102,6 +101,7 @@ using namespace std;
 - (IBAction)kernelRadiusValueChanged:(UISlider *)slider
 {
     float radius = slider.value;
+    NSLog(@"Radius - %.f", radius);
     [(STFocusBlurKernel *)_wienerFilter.PSF setRadius:radius];
     
     _kernelImageView.image = [_wienerFilter.PSF kernelImage];
@@ -110,6 +110,7 @@ using namespace std;
 - (IBAction)kernelEdgeFeatherValueChanged:(UISlider *)slider
 {
     float edgeFeather = slider.value;
+    NSLog(@"Edge feather - %.f", edgeFeather);
     [(STFocusBlurKernel *)_wienerFilter.PSF setEdgeFeather:edgeFeather];
     
     _kernelImageView.image = [_wienerFilter.PSF kernelImage];
@@ -118,9 +119,20 @@ using namespace std;
 - (IBAction)kernelCorrectionStrengthValueChanged:(UISlider *)slider
 {
     float correctionStrength = slider.value;
+    NSLog(@"Correction strength - %.f", correctionStrength );
     [(STFocusBlurKernel *)_wienerFilter.PSF setCorrectionStrength:correctionStrength];
     
     _kernelImageView.image = [_wienerFilter.PSF kernelImage];
+}
+
+- (IBAction)applyButtonAction:(id)sender
+{
+    Mat img = imread("/Users/santatnt/Desktop/3ca5ceda07d41d58574075ddea1a73ad.jpg", IMREAD_UNCHANGED);
+    _wienerFilter.gamma = 0.001f;
+    [_wienerFilter applyWienerFilter:&img];
+    _imageView.image = [UIImage imageWithCVMat:img];
+    
+    imwrite("/Users/santatnt/Desktop/deblurred.png", img);
 }
 
 @end

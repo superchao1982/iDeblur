@@ -10,8 +10,7 @@
 
 @interface STKernel : NSObject
 
-@property (nonatomic, assign) cv::Mat* kernelMatrix;
-
+- (cv::Mat)kernelMatrix;
 - (UIImage *)kernelImage;
 
 @end

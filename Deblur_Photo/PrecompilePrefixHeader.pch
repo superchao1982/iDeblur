@@ -16,6 +16,7 @@
     #import <opencv2/ml/ml.hpp>
     #import <opencv2/highgui.hpp>
     #import "UIImage+OpenCV.h"
+    #import "STOpenCVCommonFunctions.h"
 #endif
 
 #endif
