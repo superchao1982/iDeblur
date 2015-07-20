@@ -30,20 +30,20 @@ using namespace std;
 #pragma mark -
 #pragma mark - Class methods
 
-- (void)applyWienerFilter:(cv::Mat *)img
+- (cv::Mat)applyWienerFilter:(cv::Mat)img
 {
     vector<Mat> channels(3);
-    split(*img, channels);
+    split(img, channels);
     
     channels[0] = applyWienerFilterForChannels(channels[0], _PSF.kernelMatrix, _gamma);
     channels[1] = applyWienerFilterForChannels(channels[1], _PSF.kernelMatrix, _gamma);
     channels[2] = applyWienerFilterForChannels(channels[2], _PSF.kernelMatrix, _gamma);
     
-    merge(channels, *img);
+    merge(channels, img);
     
     cv::Mat finalImage;
-    img->convertTo(finalImage, CV_8UC3);
-    *img = finalImage;
+    img.convertTo(finalImage, CV_8UC3);
+    return finalImage;
 }
 
 #pragma mark -

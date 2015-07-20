@@ -128,8 +128,8 @@ using namespace std;
 - (IBAction)applyButtonAction:(id)sender
 {
     _wienerFilter.gamma = 0.001f;
-    [_wienerFilter applyWienerFilter:&_originalImage];
-    _imageView.image = [UIImage imageWithCVMat:_originalImage];
+    Mat deconvulvedImage = [_wienerFilter applyWienerFilter:_originalImage];
+    _imageView.image = [UIImage imageWithCVMat:deconvulvedImage];
     
     imwrite("/Users/santatnt/Desktop/deblurred.png", _originalImage);
 }

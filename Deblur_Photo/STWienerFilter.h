@@ -14,6 +14,6 @@
 @property (nonatomic, assign) float gamma;
 @property (nonatomic, strong) STKernel* PSF;
 
-- (void)applyWienerFilter:(cv::Mat *)image;
+- (cv::Mat)applyWienerFilter:(cv::Mat)image;
 
 @end
