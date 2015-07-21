@@ -117,19 +117,6 @@ cv::Mat buildKMatrixForKernel(float radius, float edgeFeather, float correctionS
     return kernelMatrix;
 }
 
-void normalizeKernel(cv::InputArray input, cv::OutputArray output)
-{
-    float sum = 0;
-    cv::Mat img = input.getMat();
-    cv::Mat kernelConverted;
-    img.convertTo(kernelConverted, CV_32FC1);
-    for (int i = 0; i < input.size().width; i++) for (int j = 0; j < input.size().height; j++) {
-        sum += kernelConverted.at<float>(i, j);
-    }
-    kernelConverted = kernelConverted/sum;
-    kernelConverted.copyTo(output);
-}
-
 #pragma mark -
 #pragma mark - Overriden
 

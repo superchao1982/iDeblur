@@ -48,7 +48,7 @@
 }
 
 #pragma mark -
-#pragma mark - Custom Setters & Getters
+#pragma mark - Helpers
 
 - (void)setRadius:(float)radius
 {

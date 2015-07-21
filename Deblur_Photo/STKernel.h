@@ -13,4 +13,6 @@
 - (cv::Mat)kernelMatrix;
 - (UIImage *)kernelImage;
 
+void normalizeKernel(cv::InputArray input, cv::OutputArray output);
+
 @end

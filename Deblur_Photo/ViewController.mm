@@ -9,26 +9,30 @@
 #import "ViewController.h"
 
 #import <UIActionSheet+BlocksKit.h>
+#import <MBProgressHUD.h>
 
 #import "STWienerFilter.h"
 #import "STFocusBlurKernel.h"
 
 #import "STFocusBlurParametersView.h"
+#import "STMotionBlurParametersView.h"
 
 using namespace cv;
 using namespace std;
 
 typedef NS_ENUM(NSInteger, STBlurType) {
-    STBlurTypeFocus
+    STBlurTypeFocus,
+    STBlurTypeMotion
 };
 
-@interface ViewController ()  < UIImagePickerControllerDelegate, UINavigationControllerDelegate, STFocusBlurParametersViewDelegate >
+@interface ViewController ()  < UIImagePickerControllerDelegate, UINavigationControllerDelegate, STFocusBlurParametersViewDelegate, STMotionBlurParametersViewDelegate >
 
 @property (nonatomic, assign) STBlurType currentBlutType;
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIView *blurParametersContainerView;
 @property (nonatomic, strong) STFocusBlurParametersView* focusBlurParametersView;
+@property (nonatomic, strong) STMotionBlurParametersView* motionBlurParametersView;
 
 @property (nonatomic, strong) STWienerFilter* wienerFilter;
 @property (nonatomic, assign) cv::Mat originalImage;
@@ -45,8 +49,10 @@ typedef NS_ENUM(NSInteger, STBlurType) {
     [super viewDidLoad];
     
     [self _setUpFocusBlurParametersView];
-    [self setCurrentBlutType:STBlurTypeFocus];
+    [self _setUpMotionBlurParametersView];
+    [self setCurrentBlurType:STBlurTypeMotion];
     
+    //TEMP
     _originalImage = imread("/Users/santatnt/Desktop/3ca5ceda07d41d58574075ddea1a73ad.jpg", IMREAD_UNCHANGED);
     cv::cvtColor(_originalImage, _originalImage, CV_BGR2RGB);
     _wienerFilter = [[STWienerFilter alloc] init];
@@ -63,14 +69,22 @@ typedef NS_ENUM(NSInteger, STBlurType) {
     [_blurParametersContainerView addSubview:_focusBlurParametersView];
 }
 
+- (void)_setUpMotionBlurParametersView
+{
+    _motionBlurParametersView = [STMotionBlurParametersView new];
+    _motionBlurParametersView.delegate = self;
+    [_blurParametersContainerView addSubview:_motionBlurParametersView];
+}
+
 #pragma mark -
 #pragma mark - Custom Setters & Getters
 
-- (void)setCurrentBlutType:(STBlurType)currentBlutType
+- (void)setCurrentBlurType:(STBlurType)currentBlutType
 {
     _currentBlutType = currentBlutType;
     
     _focusBlurParametersView.hidden = (_currentBlutType != STBlurTypeFocus);
+    _motionBlurParametersView.hidden = (_currentBlutType != STBlurTypeMotion);
 }
 
 #pragma mark -
@@ -82,20 +96,30 @@ typedef NS_ENUM(NSInteger, STBlurType) {
     UIActionSheet* actionSheet = [UIActionSheet bk_actionSheetWithTitle:@""];
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         [actionSheet bk_addButtonWithTitle:@"Take New Photo" handler:^{
-            UIImagePickerController* imagePickerController = [UIImagePickerController new];
-            imagePickerController.delegate = weakSelf;
-            imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-            [weakSelf presentViewController:imagePickerController animated:YES completion:nil];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                UIImagePickerController* imagePickerController = [UIImagePickerController new];
+                imagePickerController.delegate = weakSelf;
+                imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+                imagePickerController.modalPresentationStyle = UIModalPresentationPopover;
+                imagePickerController.popoverPresentationController.sourceView = self.view;
+                imagePickerController.popoverPresentationController.sourceRect = ((UIButton *)sender).frame;
+                [weakSelf presentViewController:imagePickerController animated:YES completion:nil];
+            });
         }];
     }
     [actionSheet bk_addButtonWithTitle:@"Choose From Library" handler:^{
-        UIImagePickerController* imagePickerController = [UIImagePickerController new];
-        imagePickerController.delegate = weakSelf;
-        imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        [weakSelf presentViewController:imagePickerController animated:YES completion:nil];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            UIImagePickerController* imagePickerController = [UIImagePickerController new];
+            imagePickerController.delegate = weakSelf;
+            imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            imagePickerController.modalPresentationStyle = UIModalPresentationPopover;
+            imagePickerController.popoverPresentationController.sourceView = self.view;
+            imagePickerController.popoverPresentationController.sourceRect = ((UIButton *)sender).frame;
+            [weakSelf presentViewController:imagePickerController animated:YES completion:nil];
+        });
     }];
     [actionSheet bk_setCancelButtonWithTitle:@"Cancel" handler:nil];
-    [actionSheet showFromTabBar:self.tabBarController.tabBar];
+    [actionSheet showFromBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:sender] animated:YES];
 }
 
 - (IBAction)applyButtonAction:(id)sender
@@ -125,6 +149,44 @@ typedef NS_ENUM(NSInteger, STBlurType) {
 }
 
 #pragma mark -
+#pragma mark - STMotionBlurParametersView Delegate
+
+- (void)motionBlurParametersView:(STMotionBlurParametersView *)view didChangeAngle:(float)angle
+{
+    //
+}
+
+- (void)motionBlurParametersView:(STMotionBlurParametersView *)view didChangeLength:(float)length
+{
+    //
+}
+
+#pragma mark -
+#pragma mark - UIImagePickerController Controller
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    //TODO: Check image size
+    UIImage* selectedImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+    _originalImage = [selectedImage cvMatFromUIImage:selectedImage];
+    _imageView.image = [UIImage imageWithCVMat:_originalImage];
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)navigationController:(UINavigationController *)navigationController
+      willShowViewController:(UIViewController *)viewController
+                    animated:(BOOL)animated
+{
+    [[UIApplication sharedApplication] setStatusBarHidden:YES
+                                            withAnimation:UIStatusBarAnimationNone];
+}
+
+#pragma mark -
 #pragma mark - Helpers
 
 - (void)_applyFilter
@@ -142,7 +204,7 @@ typedef NS_ENUM(NSInteger, STBlurType) {
     if (_currentBlutType == STBlurTypeFocus) {
         return _focusBlurParametersView.kernel;
     } else {
-        return nil;
+        return _motionBlurParametersView.kernel;
     }
 }
 
