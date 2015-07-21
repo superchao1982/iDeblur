@@ -25,9 +25,9 @@
 {
     self = [[[NSBundle mainBundle] loadNibNamed:@"STMotionBlurParametersView"
                                           owner:self
-                                        options:nil] objectAtIndex:0];
+                                        options:nil] firstObject];
     if (self) {
-        _kernel = [STMotionBlurKernel new];
+        _kernel = [[STMotionBlurKernel alloc] initMotionBlurKernelWithLength:10.0f angle:0.0f];
         
         [self _updateUIForKernel:_kernel];
     }

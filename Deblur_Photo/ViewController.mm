@@ -96,27 +96,37 @@ typedef NS_ENUM(NSInteger, STBlurType) {
     UIActionSheet* actionSheet = [UIActionSheet bk_actionSheetWithTitle:@""];
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         [actionSheet bk_addButtonWithTitle:@"Take New Photo" handler:^{
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                UIImagePickerController* imagePickerController = [UIImagePickerController new];
-                imagePickerController.delegate = weakSelf;
-                imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-                imagePickerController.modalPresentationStyle = UIModalPresentationPopover;
-                imagePickerController.popoverPresentationController.sourceView = self.view;
-                imagePickerController.popoverPresentationController.sourceRect = ((UIButton *)sender).frame;
-                [weakSelf presentViewController:imagePickerController animated:YES completion:nil];
-            });
-        }];
-    }
-    [actionSheet bk_addButtonWithTitle:@"Choose From Library" handler:^{
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             UIImagePickerController* imagePickerController = [UIImagePickerController new];
             imagePickerController.delegate = weakSelf;
-            imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
             imagePickerController.modalPresentationStyle = UIModalPresentationPopover;
             imagePickerController.popoverPresentationController.sourceView = self.view;
             imagePickerController.popoverPresentationController.sourceRect = ((UIButton *)sender).frame;
             [weakSelf presentViewController:imagePickerController animated:YES completion:nil];
-        });
+        }];
+    }
+    [actionSheet bk_addButtonWithTitle:@"Choose From Library" handler:^{
+        UIImagePickerController* imagePickerController = [UIImagePickerController new];
+        imagePickerController.delegate = weakSelf;
+        imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        imagePickerController.modalPresentationStyle = UIModalPresentationPopover;
+        imagePickerController.popoverPresentationController.sourceView = self.view;
+        imagePickerController.popoverPresentationController.sourceRect = ((UIButton *)sender).frame;
+        [weakSelf presentViewController:imagePickerController animated:YES completion:nil];
+    }];
+    [actionSheet bk_setCancelButtonWithTitle:@"Cancel" handler:nil];
+    [actionSheet showFromBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:sender] animated:YES];
+}
+
+- (IBAction)blurTypeButtonAction:(id)sender
+{
+    __weak typeof(self) weakSelf = self;
+    UIActionSheet* actionSheet = [UIActionSheet bk_actionSheetWithTitle:@""];
+    [actionSheet bk_addButtonWithTitle:@"Focus Blur" handler:^{
+        [weakSelf setCurrentBlurType:STBlurTypeFocus];
+    }];
+    [actionSheet bk_addButtonWithTitle:@"Motion Blur" handler:^{
+        [weakSelf setCurrentBlurType:STBlurTypeMotion];
     }];
     [actionSheet bk_setCancelButtonWithTitle:@"Cancel" handler:nil];
     [actionSheet showFromBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:sender] animated:YES];

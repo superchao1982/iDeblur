@@ -19,7 +19,7 @@
                         <action selector="lengthValueChanged:" destination="iN0-l3-epB" eventType="valueChanged" id="QmN-oQ-WWM"/>
                     </connections>
                 </slider>
-                <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="i5P-nJ-gSo" userLabel="Edge Feather Horizontal Slider">
+                <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="180" translatesAutoresizingMaskIntoConstraints="NO" id="i5P-nJ-gSo" userLabel="Edge Feather Horizontal Slider">
                     <rect key="frame" x="12" y="250" width="184" height="31"/>
                     <connections>
                         <action selector="angleValueChanged:" destination="iN0-l3-epB" eventType="valueChanged" id="JjF-O1-Z5a"/>

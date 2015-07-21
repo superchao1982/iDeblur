@@ -234,31 +234,31 @@
 			name = Categories;
 			sourceTree = "<group>";
 		};
-		52DDBEC01B5E71CE00465761 /* Focus Blur */ = {
+		52DDBEC01B5E71CE00465761 /* Focus Blur Parameters View */ = {
 			isa = PBXGroup;
 			children = (
 				52F1BDAD1B5E612900F8364B /* STFocusBlurParametersView.h */,
 				52F1BDAE1B5E612900F8364B /* STFocusBlurParametersView.mm */,
 				52F1BDB01B5E615800F8364B /* STFocusBlurParametersView.xib */,
 			);
-			name = "Focus Blur";
+			name = "Focus Blur Parameters View";
 			sourceTree = "<group>";
 		};
-		52DDBEC41B5E747700465761 /* Motion Blur */ = {
+		52DDBEC41B5E747700465761 /* Motion Blur Parameters View */ = {
 			isa = PBXGroup;
 			children = (
 				52DDBEC51B5E75A700465761 /* STMotionBlurParametersView.h */,
 				52DDBEC61B5E75A700465761 /* STMotionBlurParametersView.mm */,
 				52DDBEC81B5E75B000465761 /* STMotionBlurParametersView.xib */,
 			);
-			name = "Motion Blur";
+			name = "Motion Blur Parameters View";
 			sourceTree = "<group>";
 		};
 		52F1BDAC1B5E610A00F8364B /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				52DDBEC41B5E747700465761 /* Motion Blur */,
-				52DDBEC01B5E71CE00465761 /* Focus Blur */,
+				52DDBEC41B5E747700465761 /* Motion Blur Parameters View */,
+				52DDBEC01B5E71CE00465761 /* Focus Blur Parameters View */,
 			);
 			name = Views;
 			sourceTree = "<group>";

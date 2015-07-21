@@ -26,9 +26,9 @@
 {
     self = [[[NSBundle mainBundle] loadNibNamed:@"STFocusBlurParametersView"
                                           owner:self
-                                        options:nil] objectAtIndex:0];
+                                        options:nil] firstObject];
     if (self) {
-        _kernel = [STFocusBlurKernel new];
+        _kernel = [[STFocusBlurKernel alloc] initFocusBlurKernelWithRadius:10.0f edgeFeather:10.0f correctionStrength:0.0f];
         
         [self _updateUIForKernel:_kernel];
     }
