@@ -9,16 +9,26 @@
 #import "ViewController.h"
 
 #import <UIActionSheet+BlocksKit.h>
+
 #import "STWienerFilter.h"
 #import "STFocusBlurKernel.h"
+
+#import "STFocusBlurParametersView.h"
 
 using namespace cv;
 using namespace std;
 
-@interface ViewController ()  < UIImagePickerControllerDelegate, UINavigationControllerDelegate >
+typedef NS_ENUM(NSInteger, STBlurType) {
+    STBlurTypeFocus
+};
+
+@interface ViewController ()  < UIImagePickerControllerDelegate, UINavigationControllerDelegate, STFocusBlurParametersViewDelegate >
+
+@property (nonatomic, assign) STBlurType currentBlutType;
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
-@property (weak, nonatomic) IBOutlet UIImageView *kernelImageView;
+@property (weak, nonatomic) IBOutlet UIView *blurParametersContainerView;
+@property (nonatomic, strong) STFocusBlurParametersView* focusBlurParametersView;
 
 @property (nonatomic, strong) STWienerFilter* wienerFilter;
 @property (nonatomic, assign) cv::Mat originalImage;
@@ -34,20 +44,33 @@ using namespace std;
 {
     [super viewDidLoad];
     
-//    float PSFValues[3][11] = {
-//        {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0004f, 0.0090f, 0.0176f, 0.0262f, 0.0347f, 0.0199f},
-//        {0.0346f, 0.0642f, 0.0728f, 0.0814f, 0.0900f, 0.0986f, 0.0900f, 0.0814f, 0.0728f, 0.0642f, 0.0346f},
-//        {0.0199f, 0.0347f, 0.0262f, 0.0176f, 0.0090f, 0.0004f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}
-//    };
-//    Mat PSF = Mat(3, 11, CV_32FC1, &PSFValues);
-//    Mat img = imread("/Users/santatnt/Documents/MATLAB/lena1.png", IMREAD_UNCHANGED);
-//    filter2D(img, img, -1, PSF, cv::Point(-1,-1), 0, BORDER_CONSTANT);
-//    imwrite("/Users/santatnt/Desktop/blurred.png", img);
+    [self _setUpFocusBlurParametersView];
+    [self setCurrentBlutType:STBlurTypeFocus];
     
     _originalImage = imread("/Users/santatnt/Desktop/3ca5ceda07d41d58574075ddea1a73ad.jpg", IMREAD_UNCHANGED);
     cv::cvtColor(_originalImage, _originalImage, CV_BGR2RGB);
     _wienerFilter = [[STWienerFilter alloc] init];
     _imageView.image = [UIImage imageWithCVMat:_originalImage];
+}
+
+#pragma mark -
+#pragma mark - UI SetUp
+
+- (void)_setUpFocusBlurParametersView
+{
+    _focusBlurParametersView = [STFocusBlurParametersView new];
+    _focusBlurParametersView.delegate = self;
+    [_blurParametersContainerView addSubview:_focusBlurParametersView];
+}
+
+#pragma mark -
+#pragma mark - Custom Setters & Getters
+
+- (void)setCurrentBlutType:(STBlurType)currentBlutType
+{
+    _currentBlutType = currentBlutType;
+    
+    _focusBlurParametersView.hidden = (_currentBlutType != STBlurTypeFocus);
 }
 
 #pragma mark -
@@ -75,63 +98,52 @@ using namespace std;
     [actionSheet showFromTabBar:self.tabBarController.tabBar];
 }
 
-- (IBAction)slider0ValueChanged:(UISlider *)slider
+- (IBAction)applyButtonAction:(id)sender
+{
+    [self _applyFilter];
+}
+
+#pragma mark -
+#pragma mark - STFocusBlurParametersView Delegate
+
+- (void)focusBlurParametersViewDidChangeRadius:(STFocusBlurParametersView *)view
+                                        radius:(float)radius
 {
     //
 }
 
-- (void)_showImage:(UIImage *)wonImage title:(NSString *)title
+- (void)focusBlurParametersViewDidEdgeFeather:(STFocusBlurParametersView *)view
+                                  edgeFeather:(float)edgeFeather
 {
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 200, 282)];
-    imageView.contentMode=UIViewContentModeScaleAspectFit;
-    [imageView setImage:wonImage];
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
-                                                        message:@""
-                                                       delegate:self
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles: nil];
-    if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1) {
-        [alertView setValue:imageView forKey:@"accessoryView"];
-    }else{
-        [alertView addSubview:imageView];
-    }
-    [alertView show];
+    //
 }
 
-- (IBAction)kernelRadiusValueChanged:(UISlider *)slider
+- (void)focusBlurParametersViewDidChangeCorrectionStrength:(STFocusBlurParametersView *)view
+                                        correctionStrength:(float)correctionStrength
 {
-    float radius = slider.value;
-    NSLog(@"Radius - %.f", radius);
-    [(STFocusBlurKernel *)_wienerFilter.PSF setRadius:radius];
-    
-    _kernelImageView.image = [_wienerFilter.PSF kernelImage];
+    //
 }
 
-- (IBAction)kernelEdgeFeatherValueChanged:(UISlider *)slider
-{
-    float edgeFeather = slider.value;
-    NSLog(@"Edge feather - %.f", edgeFeather);
-    [(STFocusBlurKernel *)_wienerFilter.PSF setEdgeFeather:edgeFeather];
-    
-    _kernelImageView.image = [_wienerFilter.PSF kernelImage];
-}
+#pragma mark -
+#pragma mark - Helpers
 
-- (IBAction)kernelCorrectionStrengthValueChanged:(UISlider *)slider
+- (void)_applyFilter
 {
-    float correctionStrength = slider.value;
-    NSLog(@"Correction strength - %.f", correctionStrength );
-    [(STFocusBlurKernel *)_wienerFilter.PSF setCorrectionStrength:correctionStrength];
-    
-    _kernelImageView.image = [_wienerFilter.PSF kernelImage];
-}
-
-- (IBAction)applyButtonAction:(id)sender
-{
-    _wienerFilter.gamma = 0.001f;
+    STKernel* currentKernel = [self _currentKernel];
+    float gamma = 0.001f; // ??
+    _wienerFilter.PSF = currentKernel;
+    _wienerFilter.gamma = gamma;
     Mat deconvulvedImage = [_wienerFilter applyWienerFilter:_originalImage];
     _imageView.image = [UIImage imageWithCVMat:deconvulvedImage];
-    
-    imwrite("/Users/santatnt/Desktop/deblurred.png", _originalImage);
+}
+
+- (STKernel *)_currentKernel
+{
+    if (_currentBlutType == STBlurTypeFocus) {
+        return _focusBlurParametersView.kernel;
+    } else {
+        return nil;
+    }
 }
 
 @end

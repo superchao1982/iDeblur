@@ -24,6 +24,8 @@
 		525DCAE21B593112002E456F /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 525DCAE11B593112002E456F /* CoreVideo.framework */; };
 		525DCAE41B593116002E456F /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 525DCAE31B593116002E456F /* CoreMedia.framework */; };
 		525DCAE61B59311A002E456F /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 525DCAE51B59311A002E456F /* AssetsLibrary.framework */; };
+		52F1BDAF1B5E612900F8364B /* STFocusBlurParametersView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 52F1BDAE1B5E612900F8364B /* STFocusBlurParametersView.mm */; };
+		52F1BDB11B5E615800F8364B /* STFocusBlurParametersView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52F1BDB01B5E615800F8364B /* STFocusBlurParametersView.xib */; };
 		5FE528A857B2D1D96E97ED19 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E95984DADA887CB6933CE155 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -68,6 +70,9 @@
 		525DCAE11B593112002E456F /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		525DCAE31B593116002E456F /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		525DCAE51B59311A002E456F /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		52F1BDAD1B5E612900F8364B /* STFocusBlurParametersView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STFocusBlurParametersView.h; sourceTree = "<group>"; };
+		52F1BDAE1B5E612900F8364B /* STFocusBlurParametersView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = STFocusBlurParametersView.mm; sourceTree = "<group>"; };
+		52F1BDB01B5E615800F8364B /* STFocusBlurParametersView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = STFocusBlurParametersView.xib; sourceTree = "<group>"; };
 		66BC7C58F13FA911D959F041 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		E95984DADA887CB6933CE155 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -132,6 +137,7 @@
 				5203E4771B53A3D100FB5611 /* AppDelegate.m */,
 				524E36641B592C010083A0A5 /* PrecompilePrefixHeader.pch */,
 				521529A01B5A6FE500FF84DF /* Models */,
+				52F1BDAC1B5E610A00F8364B /* Views */,
 				524E365D1B592B080083A0A5 /* Controllers */,
 				524E365F1B592B200083A0A5 /* Categories */,
 				524E365E1B592B150083A0A5 /* Other */,
@@ -216,6 +222,24 @@
 				524E36611B592B360083A0A5 /* UIImage+OpenCV.mm */,
 			);
 			name = Categories;
+			sourceTree = "<group>";
+		};
+		52DDBEC01B5E71CE00465761 /* Focus Blur */ = {
+			isa = PBXGroup;
+			children = (
+				52F1BDAD1B5E612900F8364B /* STFocusBlurParametersView.h */,
+				52F1BDAE1B5E612900F8364B /* STFocusBlurParametersView.mm */,
+				52F1BDB01B5E615800F8364B /* STFocusBlurParametersView.xib */,
+			);
+			name = "Focus Blur";
+			sourceTree = "<group>";
+		};
+		52F1BDAC1B5E610A00F8364B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				52DDBEC01B5E71CE00465761 /* Focus Blur */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 		9B139AE53857A117F9C6E4AF /* Frameworks */ = {
@@ -313,6 +337,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5203E47E1B53A3D100FB5611 /* Main.storyboard in Resources */,
+				52F1BDB11B5E615800F8364B /* STFocusBlurParametersView.xib in Resources */,
 				5203E4831B53A3D100FB5611 /* LaunchScreen.xib in Resources */,
 				5203E4801B53A3D100FB5611 /* Images.xcassets in Resources */,
 			);
@@ -372,6 +397,7 @@
 				521529A31B5A708B00FF84DF /* STKernel.mm in Sources */,
 				5203E4751B53A3D100FB5611 /* main.m in Sources */,
 				5215299F1B5A6FCE00FF84DF /* STWienerFilter.mm in Sources */,
+				52F1BDAF1B5E612900F8364B /* STFocusBlurParametersView.mm in Sources */,
 				524E365C1B592A230083A0A5 /* STOpenCVCommonFunctions.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

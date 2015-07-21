@@ -84,37 +84,36 @@ cv::Mat buildKMatrixForKernel(float radius, float edgeFeather, float correctionS
     cv::Mat kernelMatrix = cv::Mat::Mat(cv::Size(size, size), CV_32FC1, CV_RGB(0.0f,0.0f,0.0f));
     cv::circle(kernelMatrix, cv::Point(size/2.0f, size/2.0f), radius, cv::Scalar(255.0f, 255.0f, 255.0f), CV_FILLED, CV_AA, 0);
     
-//    int center = size/2;
-//    for (int y = 0; y<size; y++) {
-//        for (int x = 0; x<size; x++) {
-//            double dist = pow((double)x-center,2) + pow((double)y-center,2);
-//            dist = sqrt(dist);
-//            if (dist <= radius) {
-//                double mu = radius;
-//                double sigma = radius*edgeFeather/100;
-//                
-//                double gaussValue = pow(M_E, -pow((dist-mu)/sigma,2)/2);
-//                gaussValue *= 255*(correctionStrength)/100;
-//                
-//                int curValue = kernelMatrix.at<float>(x,y);
-//                if (correctionStrength >= 0) {
-//                    curValue *= (100-correctionStrength)/100;
-//                }
-//                
-//                curValue += gaussValue;
-//                if (curValue < 0) {
-//                    curValue = 0;
-//                }
-//                if (curValue > 255) {
-//                    curValue = 255;
-//                }
-//                
-//                kernelMatrix.at<float>(x,y) = curValue;
-//            }
-//        }
-//    }
+    int center = size/2;
+    for (int y = 0; y<size; y++) {
+        for (int x = 0; x<size; x++) {
+            double dist = pow((double)x-center,2) + pow((double)y-center,2);
+            dist = sqrt(dist);
+            if (dist <= radius) {
+                double mu = radius;
+                double sigma = radius*edgeFeather/100.0f;
+                
+                double gaussValue = pow(M_E, -pow((dist-mu)/sigma,2.0f)/2.0f);
+                gaussValue *= 255.0f*(correctionStrength)/100.0f;
+                
+                float curValue = kernelMatrix.at<float>(x,y);
+                if (correctionStrength >= 0) {
+                    curValue *= (100.0f-correctionStrength)/100.0f;
+                }
+                
+                curValue += gaussValue;
+                if (curValue < 0.0f) {
+                    curValue = 0.0f;
+                }
+                if (curValue > 255.0f) {
+                    curValue = 255.0f;
+                }
+                
+                kernelMatrix.at<float>(x,y) = curValue;
+            }
+        }
+    }
     
-//    cv::imwrite("/Users/santatnt/Desktop/cv_kernel.png", kernelMatrix);
     return kernelMatrix;
 }
 
