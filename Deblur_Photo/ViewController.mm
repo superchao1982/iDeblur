@@ -68,7 +68,7 @@ typedef NS_ENUM(NSInteger, STBlurType) {
     [self _setUpFocusBlurParametersView];
     [self _setUpMotionBlurParametersView];
     
-    [self setCurrentBlurType:STBlurTypeMotion];
+    [self setCurrentBlurType:STBlurTypeFocus];
     
     //TEMP
     _originalImage = imread("/Users/santatnt/Desktop/3ca5ceda07d41d58574075ddea1a73ad.jpg", IMREAD_UNCHANGED);
@@ -122,23 +122,27 @@ typedef NS_ENUM(NSInteger, STBlurType) {
     UIActionSheet* actionSheet = [UIActionSheet bk_actionSheetWithTitle:@""];
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         [actionSheet bk_addButtonWithTitle:@"Take New Photo" handler:^{
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                UIImagePickerController* imagePickerController = [UIImagePickerController new];
+                imagePickerController.delegate = weakSelf;
+                imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+                imagePickerController.modalPresentationStyle = UIModalPresentationPopover;
+                imagePickerController.popoverPresentationController.sourceView = self.view;
+                imagePickerController.popoverPresentationController.sourceRect = ((UIButton *)sender).frame;
+                [weakSelf presentViewController:imagePickerController animated:YES completion:nil];
+            });
+        }];
+    }
+    [actionSheet bk_addButtonWithTitle:@"Choose From Library" handler:^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             UIImagePickerController* imagePickerController = [UIImagePickerController new];
             imagePickerController.delegate = weakSelf;
-            imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+            imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
             imagePickerController.modalPresentationStyle = UIModalPresentationPopover;
             imagePickerController.popoverPresentationController.sourceView = self.view;
             imagePickerController.popoverPresentationController.sourceRect = ((UIButton *)sender).frame;
             [weakSelf presentViewController:imagePickerController animated:YES completion:nil];
-        }];
-    }
-    [actionSheet bk_addButtonWithTitle:@"Choose From Library" handler:^{
-        UIImagePickerController* imagePickerController = [UIImagePickerController new];
-        imagePickerController.delegate = weakSelf;
-        imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        imagePickerController.modalPresentationStyle = UIModalPresentationPopover;
-        imagePickerController.popoverPresentationController.sourceView = self.view;
-        imagePickerController.popoverPresentationController.sourceRect = ((UIButton *)sender).frame;
-        [weakSelf presentViewController:imagePickerController animated:YES completion:nil];
+        });
     }];
     [actionSheet bk_setCancelButtonWithTitle:@"Cancel" handler:nil];
     [actionSheet showFromBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:sender] animated:YES];
@@ -163,12 +167,20 @@ typedef NS_ENUM(NSInteger, STBlurType) {
 
 - (void)focusBlurParametersView:(STFocusBlurParametersView *)parametersView didEndEditingKernelParameters:(STFocusBlurKernel *)kernel
 {
+    _statusLabel.text = @"Applying preview filter.";
+    [_activityIndicator startAnimating];
+    
     __weak typeof(self) weakSelf = self;
     [self _applyWienerForImage:_previewImage
                               withCompletion:^(cv::Mat image) {
         weakSelf.imageView.image = [UIImage imageWithCVMat:image];
-                                  
+                
+        weakSelf.statusLabel.text = @"Applying full resolution filter.";
+
         [self _applyWienerForImage:_originalImage withCompletion:^(cv::Mat image) {
+            weakSelf.statusLabel.text = @"";
+            [weakSelf.activityIndicator stopAnimating];
+
             weakSelf.imageView.image = [UIImage imageWithCVMat:image];
         }];
     }];
@@ -180,12 +192,20 @@ typedef NS_ENUM(NSInteger, STBlurType) {
 - (void)motionBlurParametersView:(STMotionBlurParametersView *)view
    didEndEditingKernelParameters:(STMotionBlurKernel *)kernel
 {
+    _statusLabel.text = @"Applying preview filter.";
+    [_activityIndicator startAnimating];
+    
     __weak typeof(self) weakSelf = self;
      [self _applyWienerForImage:_previewImage
                                withCompletion:^(cv::Mat image) {
         weakSelf.imageView.image = [UIImage imageWithCVMat:image];
+        
+         weakSelf.statusLabel.text = @"Applying full resolution filter.";
                                    
         [self _applyWienerForImage:_originalImage withCompletion:^(cv::Mat image) {
+            weakSelf.statusLabel.text = @"";
+            [weakSelf.activityIndicator stopAnimating];
+            
            weakSelf.imageView.image = [UIImage imageWithCVMat:image];
         }];
      }];
@@ -201,6 +221,8 @@ typedef NS_ENUM(NSInteger, STBlurType) {
     _originalImage = [selectedImage cvMatFromUIImage:selectedImage];
     if (_originalImage.channels() == 3) {
         cv::cvtColor(_originalImage, _previewImage, CV_RGB2GRAY);
+    } else if (_originalImage.channels() == 4) {
+        cv::cvtColor(_originalImage, _previewImage, CV_RGBA2GRAY);
     }
     _imageView.image = [UIImage imageWithCVMat:_originalImage];
     [picker dismissViewControllerAnimated:YES completion:nil];
@@ -232,9 +254,6 @@ typedef NS_ENUM(NSInteger, STBlurType) {
 
 - (void)_applyWienerForImage:(cv::Mat)image withCompletion:(void (^)(cv::Mat image))completionBlock
 {
-    _statusLabel.text = @"Applying preview filter.";
-    [_activityIndicator startAnimating];
-    
     STKernel* currentKernel = [self _currentKernel];
     float gamma = 0.001f; // ??
     _wienerFilter.PSF = currentKernel;
@@ -243,8 +262,6 @@ typedef NS_ENUM(NSInteger, STBlurType) {
     [_wienerFilter applyWienerFilter:image
                       withCompletion:^(cv::Mat deconvulvedImage) {
         TOCK;
-        _statusLabel.text = @"";
-        [_activityIndicator stopAnimating];
         if (completionBlock) {
             completionBlock(deconvulvedImage);
         }

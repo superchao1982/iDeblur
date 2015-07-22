@@ -28,7 +28,7 @@
                                           owner:self
                                         options:nil] firstObject];
     if (self) {
-        _kernel = [[STFocusBlurKernel alloc] initFocusBlurKernelWithRadius:10.0f edgeFeather:10.0f correctionStrength:0.0f];
+        _kernel = [[STFocusBlurKernel alloc] initFocusBlurKernelWithRadius:10.0f edgeFeather:0.0f correctionStrength:0.0f];
         
         [self _updateUIForKernel:_kernel];
     }

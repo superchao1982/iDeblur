@@ -55,14 +55,8 @@ using namespace cv;
     std::vector<cv::Mat> channels(3);
     split(img, channels);
     
-    channels[0] = [self _applyWienerFilterForChannels:channels[0]
-                                               kernel:_kernel.kernelMatrix
-                                                gamma:_gamma];
-    if (channels.size() > 1) {
-        channels[1] = [self _applyWienerFilterForChannels:channels[1]
-                                                   kernel:_kernel.kernelMatrix
-                                                    gamma:_gamma];
-        channels[2] = [self _applyWienerFilterForChannels:channels[2]
+    for (int i = 0; i < channels.size(); i++) {
+        channels[i] = [self _applyWienerFilterForChannels:channels[i]
                                                    kernel:_kernel.kernelMatrix
                                                     gamma:_gamma];
     }
