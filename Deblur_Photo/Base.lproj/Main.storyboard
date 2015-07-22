@@ -20,11 +20,11 @@
                                 <rect key="frame" x="780" y="0.0" width="244" height="768"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qPh-oz-mfb" userLabel="Blur Parameters Container View">
-                                        <rect key="frame" x="20" y="171" width="204" height="433"/>
+                                        <rect key="frame" x="20" y="220" width="204" height="433"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AXT-OU-xAq">
-                                        <rect key="frame" x="47" y="65" width="150" height="30"/>
+                                        <rect key="frame" x="47" y="137" width="150" height="30"/>
                                         <state key="normal" title="Choose Photo">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -33,18 +33,8 @@
                                             <action selector="choosePhotoButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gTK-bx-a9L"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Yy-rx-SJ8">
-                                        <rect key="frame" x="47" y="110" width="150" height="30"/>
-                                        <state key="normal" title="Blur Type">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="blurTypeButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="An0-tV-O88"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zf8-WS-MeY">
-                                        <rect key="frame" x="47" y="27" width="150" height="30"/>
+                                        <rect key="frame" x="47" y="99" width="150" height="30"/>
                                         <state key="normal" title="Save">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -54,6 +44,29 @@
                                         </state>
                                         <connections>
                                             <action selector="saveButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1eh-Iz-vGq"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Yy-rx-SJ8">
+                                        <rect key="frame" x="47" y="182" width="150" height="30"/>
+                                        <state key="normal" title="Blur Type">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="blurTypeButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="An0-tV-O88"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oFa-hY-zJi">
+                                        <rect key="frame" x="47" y="61" width="150" height="30"/>
+                                        <state key="normal" title="Show Origin">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="disabled">
+                                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="showOriginPhotoButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="O3g-XA-ceW"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -90,6 +103,7 @@
                         <outlet property="containerScrollView" destination="Y3N-hr-6Fj" id="c3B-ug-KSM"/>
                         <outlet property="imageView" destination="mri-Ai-ajy" id="8p6-dX-4Ax"/>
                         <outlet property="saveButton" destination="Zf8-WS-MeY" id="6I9-Ba-Nr3"/>
+                        <outlet property="showOriginButton" destination="oFa-hY-zJi" id="8xr-az-FdM"/>
                         <outlet property="statusLabel" destination="NF3-io-oAS" id="3lb-Yf-KMU"/>
                     </connections>
                 </viewController>

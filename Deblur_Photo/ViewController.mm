@@ -31,6 +31,7 @@ typedef NS_ENUM(NSInteger, STBlurType) {
 @property (nonatomic, assign) STBlurType currentBlutType;
 
 @property (weak, nonatomic) IBOutlet UIButton *saveButton;
+@property (weak, nonatomic) IBOutlet UIButton *showOriginButton;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 @property (weak, nonatomic) IBOutlet UIScrollView *containerScrollView;
@@ -172,6 +173,13 @@ typedef NS_ENUM(NSInteger, STBlurType) {
     }
 }
 
+- (IBAction)showOriginPhotoButtonAction:(id)sender
+{
+    if (_wienerFilter.filtering == NO) {
+        self.imageView.image = [UIImage imageWithCVMat:_originalImage];
+    }
+}
+
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
 {
     [UIAlertView bk_showAlertViewWithTitle:@""
@@ -248,6 +256,7 @@ typedef NS_ENUM(NSInteger, STBlurType) {
         cv::cvtColor(_originalImage, _previewImage, CV_RGBA2GRAY);
     }
     _imageView.image = [UIImage imageWithCVMat:_originalImage];
+    _showOriginButton.enabled = YES;
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
