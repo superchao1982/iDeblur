@@ -56,7 +56,7 @@ using namespace cv;
     split(img, channels);
     
     for (int i = 0; i < channels.size(); i++) {
-        channels[i] = [self _applyWienerFilterForChannels:channels[i]
+        channels[i] = [self _applyWienerFilterForImageChannel:channels[i]
                                                    kernel:_kernel.kernelMatrix
                                                     gamma:_gamma];
     }
@@ -67,10 +67,7 @@ using namespace cv;
     return finalImage;
 }
 
-#pragma mark -
-#pragma mark - Helpers
-
-- (cv::Mat)_applyWienerFilterForChannels:(cv::Mat)img kernel:(cv::Mat)kernel gamma:(float)gamma
+- (cv::Mat)_applyWienerFilterForImageChannel:(cv::Mat)img kernel:(cv::Mat)kernel gamma:(float)gamma
 {
     if (img.channels() > 1) {
         NSLog(@"Error: Incorrect number of channels for wiener filter.");

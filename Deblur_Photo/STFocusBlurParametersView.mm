@@ -60,9 +60,14 @@
     _kernel.radius = radius;
     [self _updateUIForKernel:_kernel];
     
-    if ([self.delegate respondsToSelector:@selector(focusBlurParametersView:didChangeKernelParameters:)]) {
-        [self.delegate focusBlurParametersView:self didChangeKernelParameters:_kernel];
-    }
+    [_timer invalidate];
+    
+    __weak typeof(self) weakSelf = self;
+    _timer = [NSTimer bk_scheduledTimerWithTimeInterval:kEditingTimeThreshold block:^(NSTimer *timer) {
+        if ([weakSelf.delegate respondsToSelector:@selector(focusBlurParametersView:didChangeKernelParameters:)]) {
+            [weakSelf.delegate focusBlurParametersView:weakSelf didChangeKernelParameters:_kernel];
+        }
+    } repeats:NO];
 }
 
 - (void)setEdgeFeather:(float)edgeFeather
@@ -70,9 +75,14 @@
     _kernel.edgeFeather = edgeFeather;
     [self _updateUIForKernel:_kernel];
     
-    if ([self.delegate respondsToSelector:@selector(focusBlurParametersView:didChangeKernelParameters:)]) {
-        [self.delegate focusBlurParametersView:self didChangeKernelParameters:_kernel];
-    }
+    [_timer invalidate];
+    
+    __weak typeof(self) weakSelf = self;
+    _timer = [NSTimer bk_scheduledTimerWithTimeInterval:kEditingTimeThreshold block:^(NSTimer *timer) {
+        if ([weakSelf.delegate respondsToSelector:@selector(focusBlurParametersView:didChangeKernelParameters:)]) {
+            [weakSelf.delegate focusBlurParametersView:weakSelf didChangeKernelParameters:_kernel];
+        }
+    } repeats:NO];
 }
 
 - (void)setCorrectionStrength:(float)correctionStrength
@@ -80,9 +90,14 @@
     _kernel.correctionStrength = correctionStrength;
     [self _updateUIForKernel:_kernel];
     
-    if ([self.delegate respondsToSelector:@selector(focusBlurParametersView:didChangeKernelParameters:)]) {
-        [self.delegate focusBlurParametersView:self didChangeKernelParameters:_kernel];
-    }
+    [_timer invalidate];
+    
+    __weak typeof(self) weakSelf = self;
+    _timer = [NSTimer bk_scheduledTimerWithTimeInterval:kEditingTimeThreshold block:^(NSTimer *timer) {
+        if ([weakSelf.delegate respondsToSelector:@selector(focusBlurParametersView:didChangeKernelParameters:)]) {
+            [weakSelf.delegate focusBlurParametersView:weakSelf didChangeKernelParameters:_kernel];
+        }
+    }repeats:NO];
 }
 
 #pragma mark -
@@ -90,32 +105,17 @@
 
 - (IBAction)radiusSliderValueChanged:(UISlider*)sender
 {
-    [_timer invalidate];
-    
-    __weak typeof(self) weakSelf = self;
-    _timer = [NSTimer bk_scheduledTimerWithTimeInterval:kEditingTimeThreshold block:^(NSTimer *timer) {
-        [weakSelf setRadius:sender.value];
-    } repeats:NO];
+    [self setRadius:sender.value];
 }
 
 - (IBAction)edgeFeatherValueChanged:(UISlider*)sender
 {
-    [_timer invalidate];
-    
-    __weak typeof(self) weakSelf = self;
-    _timer = [NSTimer bk_scheduledTimerWithTimeInterval:kEditingTimeThreshold block:^(NSTimer *timer) {
-        [weakSelf setEdgeFeather:sender.value];
-    } repeats:NO];
+    [self setEdgeFeather:sender.value];
 }
 
 - (IBAction)correctionStrengthValueChanged:(UISlider*)sender
 {
-    [_timer invalidate];
-    
-    __weak typeof(self) weakSelf = self;
-    _timer = [NSTimer bk_scheduledTimerWithTimeInterval:kEditingTimeThreshold block:^(NSTimer *timer) {
-        [weakSelf setCorrectionStrength:sender.value];
-    } repeats:NO];
+    [self setCorrectionStrength:sender.value];
 }
 
 - (IBAction)sliderDidEndEditing:(id)sender

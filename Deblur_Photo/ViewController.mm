@@ -80,6 +80,7 @@ typedef NS_ENUM(NSInteger, STBlurType) {
     }
     cv::cvtColor(_originalImage, _previewImage, CV_RGB2GRAY);
     _imageView.image = [UIImage imageWithCVMat:_originalImage];
+    _showOriginButton.enabled = YES;
 }
 
 #pragma mark -
