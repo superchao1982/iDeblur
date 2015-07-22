@@ -25,10 +25,11 @@ typedef NS_ENUM(NSInteger, STBlurType) {
     STBlurTypeMotion
 };
 
-@interface ViewController ()  < UIImagePickerControllerDelegate, UINavigationControllerDelegate, STFocusBlurParametersViewDelegate, STMotionBlurParametersViewDelegate >
+@interface ViewController ()  < UIImagePickerControllerDelegate, UINavigationControllerDelegate, STFocusBlurParametersViewDelegate, STMotionBlurParametersViewDelegate, UIScrollViewDelegate >
 
 @property (nonatomic, assign) STBlurType currentBlutType;
 
+@property (weak, nonatomic) IBOutlet UIScrollView *containerScrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIView *blurParametersContainerView;
 @property (nonatomic, strong) STFocusBlurParametersView* focusBlurParametersView;
@@ -48,8 +49,10 @@ typedef NS_ENUM(NSInteger, STBlurType) {
 {
     [super viewDidLoad];
     
+    [self _setUpScrollView];
     [self _setUpFocusBlurParametersView];
     [self _setUpMotionBlurParametersView];
+    
     [self setCurrentBlurType:STBlurTypeMotion];
     
     //TEMP
@@ -61,6 +64,12 @@ typedef NS_ENUM(NSInteger, STBlurType) {
 
 #pragma mark -
 #pragma mark - UI SetUp
+
+- (void)_setUpScrollView
+{
+    _containerScrollView.minimumZoomScale = 1.0f;
+    _containerScrollView.maximumZoomScale = 2.0f;
+}
 
 - (void)_setUpFocusBlurParametersView
 {
@@ -140,35 +149,30 @@ typedef NS_ENUM(NSInteger, STBlurType) {
 #pragma mark -
 #pragma mark - STFocusBlurParametersView Delegate
 
-- (void)focusBlurParametersViewDidChangeRadius:(STFocusBlurParametersView *)view
-                                        radius:(float)radius
+- (void)focusBlurParametersView:(STFocusBlurParametersView *)parametersView
+      didChangeKernelParameters:(STFocusBlurKernel *)kernel
 {
-    //
+    //TODO: Immediately show changes in preview mode.
 }
 
-- (void)focusBlurParametersViewDidEdgeFeather:(STFocusBlurParametersView *)view
-                                  edgeFeather:(float)edgeFeather
+- (void)focusBlurParametersView:(STFocusBlurParametersView *)parametersView didEndEditingKernelParameters:(STFocusBlurKernel *)kernel
 {
-    //
-}
-
-- (void)focusBlurParametersViewDidChangeCorrectionStrength:(STFocusBlurParametersView *)view
-                                        correctionStrength:(float)correctionStrength
-{
-    //
+    [self _applyFilter];
 }
 
 #pragma mark -
 #pragma mark - STMotionBlurParametersView Delegate
 
-- (void)motionBlurParametersView:(STMotionBlurParametersView *)view didChangeAngle:(float)angle
+- (void)motionBlurParametersView:(STMotionBlurParametersView *)view
+       didChangeKernelParameters:(STMotionBlurKernel *)kernel
 {
-    //
+    //TODO: Immediately show changes in preview mode.
 }
 
-- (void)motionBlurParametersView:(STMotionBlurParametersView *)view didChangeLength:(float)length
+- (void)motionBlurParametersView:(STMotionBlurParametersView *)view
+   didEndEditingKernelParameters:(STMotionBlurKernel *)kernel
 {
-    //
+     [self _applyFilter];
 }
 
 #pragma mark -
@@ -197,6 +201,14 @@ typedef NS_ENUM(NSInteger, STBlurType) {
 }
 
 #pragma mark -
+#pragma mark - UIScrollView Delegate
+
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
+{
+    return _imageView;
+}
+
+#pragma mark -
 #pragma mark - Helpers
 
 - (void)_applyFilter
@@ -205,8 +217,12 @@ typedef NS_ENUM(NSInteger, STBlurType) {
     float gamma = 0.001f; // ??
     _wienerFilter.PSF = currentKernel;
     _wienerFilter.gamma = gamma;
-    Mat deconvulvedImage = [_wienerFilter applyWienerFilter:_originalImage];
-    _imageView.image = [UIImage imageWithCVMat:deconvulvedImage];
+    TICK;
+    [_wienerFilter applyWienerFilter:_originalImage
+                      withCompletion:^(cv::Mat deconvulvedImage) {
+                          TOCK;
+           _imageView.image = [UIImage imageWithCVMat:deconvulvedImage]; 
+    }];
 }
 
 - (STKernel *)_currentKernel

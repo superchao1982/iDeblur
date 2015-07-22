@@ -21,13 +21,10 @@
 
 @protocol STFocusBlurParametersViewDelegate <NSObject>
 @required
-- (void)focusBlurParametersViewDidChangeRadius:(STFocusBlurParametersView *)view
-                                        radius:(float)radius;
+- (void)focusBlurParametersView:(STFocusBlurParametersView *)parametersView
+      didChangeKernelParameters:(STFocusBlurKernel *)kernel;
 
-- (void)focusBlurParametersViewDidEdgeFeather:(STFocusBlurParametersView *)view
-                                  edgeFeather:(float)edgeFeather;
-
-- (void)focusBlurParametersViewDidChangeCorrectionStrength:(STFocusBlurParametersView *)view
-                                        correctionStrength:(float)correctionStrength;
+- (void)focusBlurParametersView:(STFocusBlurParametersView *)parametersView
+       didEndEditingKernelParameters:(STFocusBlurKernel *)kernel;
 
 @end

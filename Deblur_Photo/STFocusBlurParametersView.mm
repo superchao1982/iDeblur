@@ -55,8 +55,9 @@
     _kernel.radius = radius;
     [self _updateUIForKernel:_kernel];
     
-    [self.delegate focusBlurParametersViewDidChangeRadius:self
-                                                   radius:_kernel.radius];
+    if ([self.delegate respondsToSelector:@selector(focusBlurParametersView:didChangeKernelParameters:)]) {
+        [self.delegate focusBlurParametersView:self didChangeKernelParameters:_kernel];
+    }
 }
 
 - (void)setEdgeFeather:(float)edgeFeather
@@ -64,8 +65,9 @@
     _kernel.edgeFeather = edgeFeather;
     [self _updateUIForKernel:_kernel];
     
-    [self.delegate focusBlurParametersViewDidEdgeFeather:self
-                                             edgeFeather:_kernel.edgeFeather];
+    if ([self.delegate respondsToSelector:@selector(focusBlurParametersView:didChangeKernelParameters:)]) {
+        [self.delegate focusBlurParametersView:self didChangeKernelParameters:_kernel];
+    }
 }
 
 - (void)setCorrectionStrength:(float)correctionStrength
@@ -73,8 +75,9 @@
     _kernel.correctionStrength = correctionStrength;
     [self _updateUIForKernel:_kernel];
     
-    [self.delegate focusBlurParametersViewDidChangeCorrectionStrength:self
-                                                   correctionStrength:_kernel.correctionStrength];
+    if ([self.delegate respondsToSelector:@selector(focusBlurParametersView:didChangeKernelParameters:)]) {
+        [self.delegate focusBlurParametersView:self didChangeKernelParameters:_kernel];
+    }
 }
 
 #pragma mark -
@@ -93,6 +96,14 @@
 - (IBAction)correctionStrengthValueChanged:(UISlider*)sender
 {
     [self setCorrectionStrength:sender.value];
+}
+
+- (IBAction)sliderDidEndEditing:(id)sender
+{
+    if ([self.delegate respondsToSelector:@selector(focusBlurParametersView:didEndEditingKernelParameters:)]) {
+        [self.delegate focusBlurParametersView:self
+                 didEndEditingKernelParameters:_kernel];
+    }
 }
 
 @end

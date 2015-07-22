@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+#define TICK   NSDate *startTime = [NSDate date]
+#define TOCK   NSLog(@"Time: %f", -[startTime timeIntervalSinceNow])
+
 @interface STOpenCVCommonFunctions : NSObject
 
 + (NSString *)matType2String:(int)matTypeInt;

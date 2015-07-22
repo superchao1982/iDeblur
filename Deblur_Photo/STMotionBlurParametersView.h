@@ -23,9 +23,9 @@
 @required
 
 - (void)motionBlurParametersView:(STMotionBlurParametersView *)view
-                 didChangeLength:(float)length;
+                 didChangeKernelParameters:(STMotionBlurKernel *)kernel;
 
 - (void)motionBlurParametersView:(STMotionBlurParametersView *)view
-                 didChangeAngle:(float)angle;
+       didEndEditingKernelParameters:(STMotionBlurKernel *)kernel;
 
 @end

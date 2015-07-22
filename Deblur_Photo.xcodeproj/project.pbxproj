@@ -18,6 +18,7 @@
 		5215299F1B5A6FCE00FF84DF /* STWienerFilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5215299E1B5A6FCE00FF84DF /* STWienerFilter.mm */; };
 		521529A31B5A708B00FF84DF /* STKernel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 521529A21B5A708B00FF84DF /* STKernel.mm */; };
 		521529A91B5A73EF00FF84DF /* STFocusBlurKernel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 521529A81B5A73EF00FF84DF /* STFocusBlurKernel.mm */; };
+		524CA6151B5F949000442F1F /* STWienerFilterOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = 524CA6141B5F949000442F1F /* STWienerFilterOperation.mm */; };
 		524E365C1B592A230083A0A5 /* STOpenCVCommonFunctions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 524E365B1B592A230083A0A5 /* STOpenCVCommonFunctions.mm */; };
 		524E36621B592B360083A0A5 /* UIImage+OpenCV.mm in Sources */ = {isa = PBXBuildFile; fileRef = 524E36611B592B360083A0A5 /* UIImage+OpenCV.mm */; };
 		525DCAE01B5930F5002E456F /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 525DCADF1B5930F5002E456F /* AVFoundation.framework */; };
@@ -64,6 +65,8 @@
 		521529A21B5A708B00FF84DF /* STKernel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = STKernel.mm; sourceTree = "<group>"; };
 		521529A71B5A73EF00FF84DF /* STFocusBlurKernel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STFocusBlurKernel.h; sourceTree = "<group>"; };
 		521529A81B5A73EF00FF84DF /* STFocusBlurKernel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = STFocusBlurKernel.mm; sourceTree = "<group>"; };
+		524CA6131B5F949000442F1F /* STWienerFilterOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STWienerFilterOperation.h; sourceTree = "<group>"; };
+		524CA6141B5F949000442F1F /* STWienerFilterOperation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = STWienerFilterOperation.mm; sourceTree = "<group>"; };
 		524E365A1B592A230083A0A5 /* STOpenCVCommonFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STOpenCVCommonFunctions.h; sourceTree = "<group>"; };
 		524E365B1B592A230083A0A5 /* STOpenCVCommonFunctions.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = STOpenCVCommonFunctions.mm; sourceTree = "<group>"; };
 		524E36601B592B360083A0A5 /* UIImage+OpenCV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+OpenCV.h"; sourceTree = "<group>"; };
@@ -197,6 +200,8 @@
 			children = (
 				5215299D1B5A6FCE00FF84DF /* STWienerFilter.h */,
 				5215299E1B5A6FCE00FF84DF /* STWienerFilter.mm */,
+				524CA6131B5F949000442F1F /* STWienerFilterOperation.h */,
+				524CA6141B5F949000442F1F /* STWienerFilterOperation.mm */,
 				521529A11B5A708B00FF84DF /* STKernel.h */,
 				521529A21B5A708B00FF84DF /* STKernel.mm */,
 				521529A71B5A73EF00FF84DF /* STFocusBlurKernel.h */,
@@ -412,6 +417,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				524CA6151B5F949000442F1F /* STWienerFilterOperation.mm in Sources */,
 				52DDBEC71B5E75A700465761 /* STMotionBlurParametersView.mm in Sources */,
 				5203E47B1B53A3D100FB5611 /* ViewController.mm in Sources */,
 				524E36621B592B360083A0A5 /* UIImage+OpenCV.mm in Sources */,

@@ -67,11 +67,28 @@
 - (IBAction)lengthValueChanged:(UISlider *)sender
 {
     [self setLength:sender.value];
+    
+    if ([self.delegate respondsToSelector:@selector(motionBlurParametersView:didChangeKernelParameters:)]) {
+        [self.delegate motionBlurParametersView:self
+                      didChangeKernelParameters:_kernel];
+    }
 }
 
 - (IBAction)angleValueChanged:(UISlider *)sender
 {
     [self setAngle:sender.value];
+    
+    if ([self.delegate respondsToSelector:@selector(motionBlurParametersView:didChangeKernelParameters:)]) {
+        [self.delegate motionBlurParametersView:self
+                      didChangeKernelParameters:_kernel];
+    }
+}
+
+- (IBAction)sliderDidEndEditing:(id)sender
+{
+    if ([self.delegate respondsToSelector:@selector(motionBlurParametersView:didEndEditingKernelParameters:)]) {
+        [self.delegate motionBlurParametersView:self didEndEditingKernelParameters:_kernel];
+    }
 }
 
 @end

@@ -18,6 +18,8 @@
                     <color key="minimumTrackTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
                         <action selector="radiusSliderValueChanged:" destination="iN0-l3-epB" eventType="valueChanged" id="tnc-C6-KnR"/>
+                        <action selector="sliderDidEndEditing:" destination="iN0-l3-epB" eventType="touchUpOutside" id="i1q-e3-SM8"/>
+                        <action selector="sliderDidEndEditing:" destination="iN0-l3-epB" eventType="touchUpInside" id="pry-3b-19L"/>
                     </connections>
                 </slider>
                 <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="Xr4-Wq-Zcy" userLabel="Edge Feather Horizontal Slider">
@@ -25,6 +27,8 @@
                     <color key="minimumTrackTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
                         <action selector="edgeFeatherValueChanged:" destination="iN0-l3-epB" eventType="valueChanged" id="IAh-Hg-mAN"/>
+                        <action selector="sliderDidEndEditing:" destination="iN0-l3-epB" eventType="touchUpOutside" id="AIM-k4-iDA"/>
+                        <action selector="sliderDidEndEditing:" destination="iN0-l3-epB" eventType="touchUpInside" id="xxh-B1-V2d"/>
                     </connections>
                 </slider>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q8r-0w-AQm">
@@ -50,6 +54,8 @@
                     <color key="minimumTrackTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
                         <action selector="correctionStrengthValueChanged:" destination="iN0-l3-epB" eventType="valueChanged" id="nMA-wp-Hzl"/>
+                        <action selector="sliderDidEndEditing:" destination="iN0-l3-epB" eventType="touchUpOutside" id="8ot-j4-X5v"/>
+                        <action selector="sliderDidEndEditing:" destination="iN0-l3-epB" eventType="touchUpInside" id="rKl-QU-0uu"/>
                     </connections>
                 </slider>
             </subviews>

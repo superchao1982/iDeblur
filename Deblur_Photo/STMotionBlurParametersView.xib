@@ -18,6 +18,8 @@
                     <color key="minimumTrackTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
                         <action selector="lengthValueChanged:" destination="iN0-l3-epB" eventType="valueChanged" id="QmN-oQ-WWM"/>
+                        <action selector="sliderDidEndEditing:" destination="iN0-l3-epB" eventType="touchUpInside" id="YGu-wg-orM"/>
+                        <action selector="sliderDidEndEditing:" destination="iN0-l3-epB" eventType="touchUpOutside" id="cxD-Vv-Jjp"/>
                     </connections>
                 </slider>
                 <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="180" translatesAutoresizingMaskIntoConstraints="NO" id="i5P-nJ-gSo" userLabel="Edge Feather Horizontal Slider">
@@ -25,6 +27,8 @@
                     <color key="minimumTrackTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
                         <action selector="angleValueChanged:" destination="iN0-l3-epB" eventType="valueChanged" id="JjF-O1-Z5a"/>
+                        <action selector="sliderDidEndEditing:" destination="iN0-l3-epB" eventType="touchUpOutside" id="Afy-ta-9TK"/>
+                        <action selector="sliderDidEndEditing:" destination="iN0-l3-epB" eventType="touchUpInside" id="dHD-sI-PJg"/>
                     </connections>
                 </slider>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GJs-ZO-LvM">

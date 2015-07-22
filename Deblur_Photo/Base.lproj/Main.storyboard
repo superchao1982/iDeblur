@@ -16,9 +16,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mri-Ai-ajy">
-                                <rect key="frame" x="16" y="138" width="754" height="500"/>
-                            </imageView>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UCL-bk-QTH" userLabel="Menu Container View">
                                 <rect key="frame" x="780" y="0.0" width="244" height="768"/>
                                 <subviews>
@@ -30,16 +27,6 @@
                                         </state>
                                         <connections>
                                             <action selector="choosePhotoButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gTK-bx-a9L"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kPn-Zl-h2a">
-                                        <rect key="frame" x="47" y="123" width="150" height="30"/>
-                                        <state key="normal" title="Apply Filter">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="applyButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Kru-Oy-ien"/>
                                         </connections>
                                     </button>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qPh-oz-mfb" userLabel="Blur Parameters Container View">
@@ -59,6 +46,17 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y3N-hr-6Fj">
+                                <rect key="frame" x="8" y="0.0" width="772" height="768"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mri-Ai-ajy">
+                                        <rect key="frame" x="0.0" y="0.0" width="772" height="768"/>
+                                    </imageView>
+                                </subviews>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="rCR-Ti-Vzy"/>
+                                </connections>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" red="0.12156862745098039" green="0.12156862745098039" blue="0.12156862745098039" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
@@ -66,6 +64,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                     <connections>
                         <outlet property="blurParametersContainerView" destination="qPh-oz-mfb" id="GL4-uL-7ua"/>
+                        <outlet property="containerScrollView" destination="Y3N-hr-6Fj" id="c3B-ug-KSM"/>
                         <outlet property="imageView" destination="mri-Ai-ajy" id="8p6-dX-4Ax"/>
                     </connections>
                 </viewController>
