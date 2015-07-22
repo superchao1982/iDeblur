@@ -20,7 +20,7 @@
 @end
 
 @protocol STMotionBlurParametersViewDelegate <NSObject>
-@required
+@optional
 
 - (void)motionBlurParametersView:(STMotionBlurParametersView *)view
                  didChangeKernelParameters:(STMotionBlurKernel *)kernel;

@@ -29,6 +29,8 @@ typedef NS_ENUM(NSInteger, STBlurType) {
 
 @property (nonatomic, assign) STBlurType currentBlutType;
 
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 @property (weak, nonatomic) IBOutlet UIScrollView *containerScrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIView *blurParametersContainerView;
@@ -37,10 +39,23 @@ typedef NS_ENUM(NSInteger, STBlurType) {
 
 @property (nonatomic, strong) STWienerFilter* wienerFilter;
 @property (nonatomic, assign) cv::Mat originalImage;
+@property (nonatomic, assign) cv::Mat previewImage;
 
 @end
 
 @implementation ViewController
+
+#pragma mark -
+#pragma mark - Initializers
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        _wienerFilter = [[STWienerFilter alloc] init];
+    }
+    return self;
+}
 
 #pragma mark -
 #pragma mark - UIViewController Lifecycle
@@ -57,8 +72,10 @@ typedef NS_ENUM(NSInteger, STBlurType) {
     
     //TEMP
     _originalImage = imread("/Users/santatnt/Desktop/3ca5ceda07d41d58574075ddea1a73ad.jpg", IMREAD_UNCHANGED);
-    cv::cvtColor(_originalImage, _originalImage, CV_BGR2RGB);
-    _wienerFilter = [[STWienerFilter alloc] init];
+    if (_originalImage.channels() == 3) {
+        cv::cvtColor(_originalImage, _originalImage, CV_BGR2RGB);
+    }
+    cv::cvtColor(_originalImage, _previewImage, CV_RGB2GRAY);
     _imageView.image = [UIImage imageWithCVMat:_originalImage];
 }
 
@@ -141,38 +158,37 @@ typedef NS_ENUM(NSInteger, STBlurType) {
     [actionSheet showFromBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:sender] animated:YES];
 }
 
-- (IBAction)applyButtonAction:(id)sender
-{
-    [self _applyFilter];
-}
-
 #pragma mark -
 #pragma mark - STFocusBlurParametersView Delegate
 
-- (void)focusBlurParametersView:(STFocusBlurParametersView *)parametersView
-      didChangeKernelParameters:(STFocusBlurKernel *)kernel
-{
-    //TODO: Immediately show changes in preview mode.
-}
-
 - (void)focusBlurParametersView:(STFocusBlurParametersView *)parametersView didEndEditingKernelParameters:(STFocusBlurKernel *)kernel
 {
-    [self _applyFilter];
+    __weak typeof(self) weakSelf = self;
+    [self _applyWienerForImage:_previewImage
+                              withCompletion:^(cv::Mat image) {
+        weakSelf.imageView.image = [UIImage imageWithCVMat:image];
+                                  
+        [self _applyWienerForImage:_originalImage withCompletion:^(cv::Mat image) {
+            weakSelf.imageView.image = [UIImage imageWithCVMat:image];
+        }];
+    }];
 }
 
 #pragma mark -
 #pragma mark - STMotionBlurParametersView Delegate
 
 - (void)motionBlurParametersView:(STMotionBlurParametersView *)view
-       didChangeKernelParameters:(STMotionBlurKernel *)kernel
-{
-    //TODO: Immediately show changes in preview mode.
-}
-
-- (void)motionBlurParametersView:(STMotionBlurParametersView *)view
    didEndEditingKernelParameters:(STMotionBlurKernel *)kernel
 {
-     [self _applyFilter];
+    __weak typeof(self) weakSelf = self;
+     [self _applyWienerForImage:_previewImage
+                               withCompletion:^(cv::Mat image) {
+        weakSelf.imageView.image = [UIImage imageWithCVMat:image];
+                                   
+        [self _applyWienerForImage:_originalImage withCompletion:^(cv::Mat image) {
+           weakSelf.imageView.image = [UIImage imageWithCVMat:image];
+        }];
+     }];
 }
 
 #pragma mark -
@@ -183,6 +199,9 @@ typedef NS_ENUM(NSInteger, STBlurType) {
     //TODO: Check image size
     UIImage* selectedImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     _originalImage = [selectedImage cvMatFromUIImage:selectedImage];
+    if (_originalImage.channels() == 3) {
+        cv::cvtColor(_originalImage, _previewImage, CV_RGB2GRAY);
+    }
     _imageView.image = [UIImage imageWithCVMat:_originalImage];
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
@@ -211,17 +230,24 @@ typedef NS_ENUM(NSInteger, STBlurType) {
 #pragma mark -
 #pragma mark - Helpers
 
-- (void)_applyFilter
+- (void)_applyWienerForImage:(cv::Mat)image withCompletion:(void (^)(cv::Mat image))completionBlock
 {
+    _statusLabel.text = @"Applying preview filter.";
+    [_activityIndicator startAnimating];
+    
     STKernel* currentKernel = [self _currentKernel];
     float gamma = 0.001f; // ??
     _wienerFilter.PSF = currentKernel;
     _wienerFilter.gamma = gamma;
     TICK;
-    [_wienerFilter applyWienerFilter:_originalImage
+    [_wienerFilter applyWienerFilter:image
                       withCompletion:^(cv::Mat deconvulvedImage) {
-                          TOCK;
-           _imageView.image = [UIImage imageWithCVMat:deconvulvedImage]; 
+        TOCK;
+        _statusLabel.text = @"";
+        [_activityIndicator stopAnimating];
+        if (completionBlock) {
+            completionBlock(deconvulvedImage);
+        }
     }];
 }
 

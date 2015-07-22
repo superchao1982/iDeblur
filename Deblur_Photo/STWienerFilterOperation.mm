@@ -58,13 +58,14 @@ using namespace cv;
     channels[0] = [self _applyWienerFilterForChannels:channels[0]
                                                kernel:_kernel.kernelMatrix
                                                 gamma:_gamma];
-    channels[1] = [self _applyWienerFilterForChannels:channels[1]
-                                               kernel:_kernel.kernelMatrix
-                                                gamma:_gamma];
-    channels[2] = [self _applyWienerFilterForChannels:channels[2]
-                                               kernel:_kernel.kernelMatrix
-                                                gamma:_gamma];
-    
+    if (channels.size() > 1) {
+        channels[1] = [self _applyWienerFilterForChannels:channels[1]
+                                                   kernel:_kernel.kernelMatrix
+                                                    gamma:_gamma];
+        channels[2] = [self _applyWienerFilterForChannels:channels[2]
+                                                   kernel:_kernel.kernelMatrix
+                                                    gamma:_gamma];
+    }
     merge(channels, img);
     
     cv::Mat finalImage;

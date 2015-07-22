@@ -20,7 +20,7 @@
 @end
 
 @protocol STFocusBlurParametersViewDelegate <NSObject>
-@required
+@optional
 - (void)focusBlurParametersView:(STFocusBlurParametersView *)parametersView
       didChangeKernelParameters:(STFocusBlurKernel *)kernel;
 

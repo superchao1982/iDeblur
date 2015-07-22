@@ -47,30 +47,41 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y3N-hr-6Fj">
-                                <rect key="frame" x="8" y="0.0" width="772" height="768"/>
+                                <rect key="frame" x="0.0" y="27" width="780" height="741"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mri-Ai-ajy">
-                                        <rect key="frame" x="0.0" y="0.0" width="772" height="768"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="780" height="741"/>
                                     </imageView>
                                 </subviews>
                                 <connections>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="rCR-Ti-Vzy"/>
                                 </connections>
                             </scrollView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NF3-io-oAS" userLabel="Status Label">
+                                <rect key="frame" x="252" y="0.0" width="215" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="M2y-fl-TFN">
+                                <rect key="frame" x="484" y="1" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.12156862745098039" green="0.12156862745098039" blue="0.12156862745098039" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="M2y-fl-TFN" id="8Gc-xN-Tju"/>
                         <outlet property="blurParametersContainerView" destination="qPh-oz-mfb" id="GL4-uL-7ua"/>
                         <outlet property="containerScrollView" destination="Y3N-hr-6Fj" id="c3B-ug-KSM"/>
                         <outlet property="imageView" destination="mri-Ai-ajy" id="8p6-dX-4Ax"/>
+                        <outlet property="statusLabel" destination="NF3-io-oAS" id="3lb-Yf-KMU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="459" y="387"/>
+            <point key="canvasLocation" x="820" y="436"/>
         </scene>
     </scenes>
 </document>
