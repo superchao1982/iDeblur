@@ -192,7 +192,8 @@ typedef NS_ENUM(NSInteger, STBlurType) {
 #pragma mark -
 #pragma mark - STFocusBlurParametersView Delegate
 
-- (void)focusBlurParametersView:(STFocusBlurParametersView *)parametersView didEndEditingKernelParameters:(STFocusBlurKernel *)kernel
+- (void)focusBlurParametersView:(STFocusBlurParametersView *)parametersView
+      didChangeKernelParameters:(STFocusBlurKernel *)kernel
 {
     _statusLabel.text = @"Applying preview filter.";
     _saveButton.enabled = NO;
@@ -200,46 +201,46 @@ typedef NS_ENUM(NSInteger, STBlurType) {
     
     __weak typeof(self) weakSelf = self;
     [self _applyWienerForImage:_previewImage
-                              withCompletion:^(cv::Mat image) {
-        weakSelf.imageView.image = [UIImage imageWithCVMat:image];
-                
-        weakSelf.statusLabel.text = @"Applying full resolution filter.";
-
-        [self _applyWienerForImage:_originalImage withCompletion:^(cv::Mat image) {
-            weakSelf.statusLabel.text = @"";
-            [weakSelf.activityIndicator stopAnimating];
-
-            weakSelf.imageView.image = [UIImage imageWithCVMat:image];
-            weakSelf.saveButton.enabled = YES;
-        }];
-    }];
+                withCompletion:^(cv::Mat image) {
+                    weakSelf.imageView.image = [UIImage imageWithCVMat:image];
+                    
+                    weakSelf.statusLabel.text = @"Applying full resolution filter.";
+                    
+                    [self _applyWienerForImage:_originalImage withCompletion:^(cv::Mat image) {
+                        weakSelf.statusLabel.text = @"";
+                        [weakSelf.activityIndicator stopAnimating];
+                        
+                        weakSelf.imageView.image = [UIImage imageWithCVMat:image];
+                        weakSelf.saveButton.enabled = YES;
+                    }];
+                }];
 }
 
 #pragma mark -
 #pragma mark - STMotionBlurParametersView Delegate
 
 - (void)motionBlurParametersView:(STMotionBlurParametersView *)view
-   didEndEditingKernelParameters:(STMotionBlurKernel *)kernel
+       didChangeKernelParameters:(STMotionBlurKernel *)kernel
 {
     _statusLabel.text = @"Applying preview filter.";
     _saveButton.enabled = NO;
     [_activityIndicator startAnimating];
     
     __weak typeof(self) weakSelf = self;
-     [self _applyWienerForImage:_previewImage
-                               withCompletion:^(cv::Mat image) {
-        weakSelf.imageView.image = [UIImage imageWithCVMat:image];
-        
-         weakSelf.statusLabel.text = @"Applying full resolution filter.";
-                                   
-        [self _applyWienerForImage:_originalImage withCompletion:^(cv::Mat image) {
-            weakSelf.statusLabel.text = @"";
-            [weakSelf.activityIndicator stopAnimating];
-            
-            weakSelf.imageView.image = [UIImage imageWithCVMat:image];
-            weakSelf.saveButton.enabled = YES;
-        }];
-     }];
+    [self _applyWienerForImage:_previewImage
+                withCompletion:^(cv::Mat image) {
+                    weakSelf.imageView.image = [UIImage imageWithCVMat:image];
+                    
+                    weakSelf.statusLabel.text = @"Applying full resolution filter.";
+                    
+                    [self _applyWienerForImage:_originalImage withCompletion:^(cv::Mat image) {
+                        weakSelf.statusLabel.text = @"";
+                        [weakSelf.activityIndicator stopAnimating];
+                        
+                        weakSelf.imageView.image = [UIImage imageWithCVMat:image];
+                        weakSelf.saveButton.enabled = YES;
+                    }];
+                }];
 }
 
 #pragma mark -

@@ -7,6 +7,9 @@
 //
 
 #import "STFocusBlurParametersView.h"
+#import <NSTimer+BlocksKit.h>
+
+#define kEditingTimeThreshold 0.2f
 
 @interface STFocusBlurParametersView()
 
@@ -14,6 +17,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *radiusLabel;
 @property (weak, nonatomic) IBOutlet UILabel *edgeFeatherLabel;
 @property (weak, nonatomic) IBOutlet UILabel *correctionStrengthLabel;
+
+@property (nonatomic, strong) NSTimer* timer;
 
 @end
 
@@ -85,17 +90,32 @@
 
 - (IBAction)radiusSliderValueChanged:(UISlider*)sender
 {
-    [self setRadius:sender.value];
+    [_timer invalidate];
+    
+    __weak typeof(self) weakSelf = self;
+    _timer = [NSTimer bk_scheduledTimerWithTimeInterval:kEditingTimeThreshold block:^(NSTimer *timer) {
+        [weakSelf setRadius:sender.value];
+    } repeats:NO];
 }
 
 - (IBAction)edgeFeatherValueChanged:(UISlider*)sender
 {
-    [self setEdgeFeather:sender.value];
+    [_timer invalidate];
+    
+    __weak typeof(self) weakSelf = self;
+    _timer = [NSTimer bk_scheduledTimerWithTimeInterval:kEditingTimeThreshold block:^(NSTimer *timer) {
+        [weakSelf setEdgeFeather:sender.value];
+    } repeats:NO];
 }
 
 - (IBAction)correctionStrengthValueChanged:(UISlider*)sender
 {
-    [self setCorrectionStrength:sender.value];
+    [_timer invalidate];
+    
+    __weak typeof(self) weakSelf = self;
+    _timer = [NSTimer bk_scheduledTimerWithTimeInterval:kEditingTimeThreshold block:^(NSTimer *timer) {
+        [weakSelf setCorrectionStrength:sender.value];
+    } repeats:NO];
 }
 
 - (IBAction)sliderDidEndEditing:(id)sender

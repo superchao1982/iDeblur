@@ -7,12 +7,17 @@
 //
 
 #import "STMotionBlurParametersView.h"
+#import <NSTimer+BlocksKit.h>
+
+#define kEditingTimeThreshold 0.2f
 
 @interface STMotionBlurParametersView()
 
 @property (weak, nonatomic) IBOutlet UILabel *lengthLabel;
 @property (weak, nonatomic) IBOutlet UILabel *angleLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *kernelImageView;
+
+@property (nonatomic, strong) NSTimer* timer;
 
 @end
 
@@ -52,6 +57,11 @@
 {
     _kernel.length = length;
     [self _updateUIForKernel:_kernel];
+    
+    if ([self.delegate respondsToSelector:@selector(motionBlurParametersView:didChangeKernelParameters:)]) {
+        [self.delegate motionBlurParametersView:self
+                      didChangeKernelParameters:_kernel];
+    }
 }
 
 
@@ -59,6 +69,11 @@
 {
     _kernel.angle = angle;
     [self _updateUIForKernel:_kernel];
+    
+    if ([self.delegate respondsToSelector:@selector(motionBlurParametersView:didChangeKernelParameters:)]) {
+        [self.delegate motionBlurParametersView:self
+                      didChangeKernelParameters:_kernel];
+    }
 }
 
 #pragma mark -
@@ -66,22 +81,22 @@
 
 - (IBAction)lengthValueChanged:(UISlider *)sender
 {
-    [self setLength:sender.value];
+    [_timer invalidate];
     
-    if ([self.delegate respondsToSelector:@selector(motionBlurParametersView:didChangeKernelParameters:)]) {
-        [self.delegate motionBlurParametersView:self
-                      didChangeKernelParameters:_kernel];
-    }
+    __weak typeof(self) weakSelf = self;
+    _timer = [NSTimer bk_scheduledTimerWithTimeInterval:kEditingTimeThreshold block:^(NSTimer *timer) {
+        [weakSelf setLength:sender.value];
+    } repeats:NO];
 }
 
 - (IBAction)angleValueChanged:(UISlider *)sender
 {
-    [self setAngle:sender.value];
+    [_timer invalidate];
     
-    if ([self.delegate respondsToSelector:@selector(motionBlurParametersView:didChangeKernelParameters:)]) {
-        [self.delegate motionBlurParametersView:self
-                      didChangeKernelParameters:_kernel];
-    }
+    __weak typeof(self) weakSelf = self;
+    _timer = [NSTimer bk_scheduledTimerWithTimeInterval:kEditingTimeThreshold block:^(NSTimer *timer) {
+        [weakSelf setAngle:sender.value];
+    } repeats:NO];
 }
 
 - (IBAction)sliderDidEndEditing:(id)sender
