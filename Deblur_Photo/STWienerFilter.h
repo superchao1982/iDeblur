@@ -11,6 +11,8 @@
 
 @interface STWienerFilter : NSObject
 
+@property (nonatomic, assign) BOOL filtering;
+
 @property (nonatomic, assign) float gamma;
 @property (nonatomic, strong) STKernel* kernel;
 

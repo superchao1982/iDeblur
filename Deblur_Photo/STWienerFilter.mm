@@ -45,12 +45,16 @@ using namespace std;
            withCompletion:(void (^)(cv::Mat))completionBlock
 {
     [_operationQueue cancelAllOperations];
+    _filtering = YES;
     
     STWienerFilterOperation* operation = [[STWienerFilterOperation alloc] initWithCVMat:image kernel:_kernel gamma:_gamma];
     operation.queuePriority = NSOperationQueuePriorityVeryHigh;
     [_operationQueue addOperation:operation];
     __weak typeof(operation) weakOperation = operation;
+    __weak typeof(self) weakSelf = self;
     [operation setCompletionBlock:^{
+        weakSelf.filtering = NO;
+        
         if (weakOperation.cancelled == NO) {
             cv::Mat result = [weakOperation editedImage];
             dispatch_async(dispatch_get_main_queue(), ^{

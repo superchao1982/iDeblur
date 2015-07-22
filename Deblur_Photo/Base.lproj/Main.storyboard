@@ -43,6 +43,19 @@
                                             <action selector="blurTypeButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="An0-tV-O88"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zf8-WS-MeY">
+                                        <rect key="frame" x="47" y="27" width="150" height="30"/>
+                                        <state key="normal" title="Save">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="disabled">
+                                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="saveButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1eh-Iz-vGq"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
@@ -76,6 +89,7 @@
                         <outlet property="blurParametersContainerView" destination="qPh-oz-mfb" id="GL4-uL-7ua"/>
                         <outlet property="containerScrollView" destination="Y3N-hr-6Fj" id="c3B-ug-KSM"/>
                         <outlet property="imageView" destination="mri-Ai-ajy" id="8p6-dX-4Ax"/>
+                        <outlet property="saveButton" destination="Zf8-WS-MeY" id="6I9-Ba-Nr3"/>
                         <outlet property="statusLabel" destination="NF3-io-oAS" id="3lb-Yf-KMU"/>
                     </connections>
                 </viewController>

@@ -9,6 +9,7 @@
 #import "ViewController.h"
 
 #import <UIActionSheet+BlocksKit.h>
+#import <UIAlertView+BlocksKit.h>
 #import <MBProgressHUD.h>
 
 #import "STWienerFilter.h"
@@ -29,6 +30,7 @@ typedef NS_ENUM(NSInteger, STBlurType) {
 
 @property (nonatomic, assign) STBlurType currentBlutType;
 
+@property (weak, nonatomic) IBOutlet UIButton *saveButton;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 @property (weak, nonatomic) IBOutlet UIScrollView *containerScrollView;
@@ -162,12 +164,30 @@ typedef NS_ENUM(NSInteger, STBlurType) {
     [actionSheet showFromBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:sender] animated:YES];
 }
 
+- (IBAction)saveButtonAction:(id)sender
+{
+    UIImage* image = self.imageView.image;
+    if (_wienerFilter.filtering == NO && image) {
+        UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+    }
+}
+
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
+{
+    [UIAlertView bk_showAlertViewWithTitle:@""
+                                   message:@"Image has been saved to your gallery."
+                         cancelButtonTitle:@"OK"
+                         otherButtonTitles:nil
+                                   handler:nil];
+}
+
 #pragma mark -
 #pragma mark - STFocusBlurParametersView Delegate
 
 - (void)focusBlurParametersView:(STFocusBlurParametersView *)parametersView didEndEditingKernelParameters:(STFocusBlurKernel *)kernel
 {
     _statusLabel.text = @"Applying preview filter.";
+    _saveButton.enabled = NO;
     [_activityIndicator startAnimating];
     
     __weak typeof(self) weakSelf = self;
@@ -182,6 +202,7 @@ typedef NS_ENUM(NSInteger, STBlurType) {
             [weakSelf.activityIndicator stopAnimating];
 
             weakSelf.imageView.image = [UIImage imageWithCVMat:image];
+            weakSelf.saveButton.enabled = YES;
         }];
     }];
 }
@@ -193,6 +214,7 @@ typedef NS_ENUM(NSInteger, STBlurType) {
    didEndEditingKernelParameters:(STMotionBlurKernel *)kernel
 {
     _statusLabel.text = @"Applying preview filter.";
+    _saveButton.enabled = NO;
     [_activityIndicator startAnimating];
     
     __weak typeof(self) weakSelf = self;
@@ -206,7 +228,8 @@ typedef NS_ENUM(NSInteger, STBlurType) {
             weakSelf.statusLabel.text = @"";
             [weakSelf.activityIndicator stopAnimating];
             
-           weakSelf.imageView.image = [UIImage imageWithCVMat:image];
+            weakSelf.imageView.image = [UIImage imageWithCVMat:image];
+            weakSelf.saveButton.enabled = YES;
         }];
      }];
 }
