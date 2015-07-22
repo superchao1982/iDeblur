@@ -256,7 +256,7 @@ typedef NS_ENUM(NSInteger, STBlurType) {
 {
     STKernel* currentKernel = [self _currentKernel];
     float gamma = 0.001f; // ??
-    _wienerFilter.PSF = currentKernel;
+    _wienerFilter.kernel = currentKernel;
     _wienerFilter.gamma = gamma;
     TICK;
     [_wienerFilter applyWienerFilter:image

@@ -70,7 +70,7 @@ using namespace cv;
 #pragma mark -
 #pragma mark - Helpers
 
-- (cv::Mat)_applyWienerFilterForChannels:(cv::Mat)img kernel:(cv::Mat)PSF gamma:(float)gamma
+- (cv::Mat)_applyWienerFilterForChannels:(cv::Mat)img kernel:(cv::Mat)kernel gamma:(float)gamma
 {
     if (img.channels() > 1) {
         NSLog(@"Error: Incorrect number of channels for wiener filter.");
@@ -80,7 +80,7 @@ using namespace cv;
     img.convertTo(img, CV_32FC1, 1.0f/255.0f);
     
     Mat Hf = Mat::zeros(img.rows, img.cols, CV_32FC1);
-    PSF.copyTo(Hf(Range(0, PSF.rows), Range(0, PSF.cols)));
+    kernel.copyTo(Hf(Range(0, kernel.rows), Range(0, kernel.cols)));
     dft(Hf, Hf, cv::DFT_COMPLEX_OUTPUT);
     
     Mat xHf0;

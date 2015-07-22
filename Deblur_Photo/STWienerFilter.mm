@@ -29,7 +29,7 @@ using namespace std;
     self = [super init];
     if(self) {
         _gamma = 0.01f;
-        _PSF = [[STFocusBlurKernel alloc] initFocusBlurKernelWithRadius:10.0f
+        _kernel = [[STFocusBlurKernel alloc] initFocusBlurKernelWithRadius:10.0f
                                                             edgeFeather:10.0f
                                                      correctionStrength:10.0f];
         
@@ -46,7 +46,7 @@ using namespace std;
 {
     [_operationQueue cancelAllOperations];
     
-    STWienerFilterOperation* operation = [[STWienerFilterOperation alloc] initWithCVMat:image kernel:_PSF gamma:_gamma];
+    STWienerFilterOperation* operation = [[STWienerFilterOperation alloc] initWithCVMat:image kernel:_kernel gamma:_gamma];
     operation.queuePriority = NSOperationQueuePriorityVeryHigh;
     [_operationQueue addOperation:operation];
     __weak typeof(operation) weakOperation = operation;

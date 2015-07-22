@@ -12,7 +12,7 @@
 @interface STWienerFilter : NSObject
 
 @property (nonatomic, assign) float gamma;
-@property (nonatomic, strong) STKernel* PSF;
+@property (nonatomic, strong) STKernel* kernel;
 
 - (void)applyWienerFilter:(cv::Mat)image withCompletion:(void (^)(cv::Mat))completionBlock;
 
