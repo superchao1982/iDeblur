@@ -18,10 +18,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gZa-yA-RXI">
-                                <rect key="frame" x="0.0" y="40" width="455" height="335"/>
+                                <rect key="frame" x="0.0" y="20" width="455" height="355"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eML-Vt-d5S">
-                                        <rect key="frame" x="0.0" y="0.0" width="455" height="335"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="455" height="355"/>
                                     </imageView>
                                 </subviews>
                                 <constraints>
@@ -37,17 +37,17 @@
                                 </connections>
                             </scrollView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9i3-OQ-ybw" userLabel="Status Label">
-                                <rect key="frame" x="16" y="-1" width="243" height="21"/>
+                                <rect key="frame" x="1" y="-1" width="243" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="243" id="44N-I9-kSF"/>
                                     <constraint firstAttribute="height" constant="21" id="tZN-pY-nl9"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="utn-zX-xs9">
-                                <rect key="frame" x="288" y="0.0" width="20" height="20"/>
+                                <rect key="frame" x="273" y="0.0" width="20" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="20" id="OBa-Mf-usW"/>
                                     <constraint firstAttribute="height" constant="20" id="vS7-2N-hj6"/>
@@ -134,19 +134,20 @@
                         </subviews>
                         <color key="backgroundColor" red="0.1215686275" green="0.1215686275" blue="0.1215686275" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="9cm-cN-po7" firstAttribute="top" secondItem="9i3-OQ-ybw" secondAttribute="bottom" id="8oj-gD-Zae"/>
-                            <constraint firstItem="9cm-cN-po7" firstAttribute="top" secondItem="utn-zX-xs9" secondAttribute="bottom" id="BaI-s3-gqR"/>
+                            <constraint firstItem="9cm-cN-po7" firstAttribute="top" secondItem="9i3-OQ-ybw" secondAttribute="bottom" constant="-20" id="8oj-gD-Zae"/>
+                            <constraint firstItem="9cm-cN-po7" firstAttribute="top" secondItem="utn-zX-xs9" secondAttribute="bottom" constant="-20" id="BaI-s3-gqR"/>
                             <constraint firstItem="gZa-yA-RXI" firstAttribute="leading" secondItem="TIT-d4-C0W" secondAttribute="leadingMargin" constant="-16" id="GaC-RV-RG3"/>
-                            <constraint firstItem="9i3-OQ-ybw" firstAttribute="leading" secondItem="TIT-d4-C0W" secondAttribute="leadingMargin" id="WF8-Dn-juB"/>
+                            <constraint firstItem="9i3-OQ-ybw" firstAttribute="leading" secondItem="TIT-d4-C0W" secondAttribute="leadingMargin" constant="-15" id="WF8-Dn-juB"/>
                             <constraint firstItem="JHr-ol-bQX" firstAttribute="top" secondItem="gZa-yA-RXI" secondAttribute="bottom" id="f6W-nw-w4D"/>
                             <constraint firstItem="JHr-ol-bQX" firstAttribute="top" secondItem="P94-Y4-OmJ" secondAttribute="bottom" constant="-4" id="her-na-Orp"/>
-                            <constraint firstItem="P94-Y4-OmJ" firstAttribute="top" secondItem="9cm-cN-po7" secondAttribute="bottom" constant="-20" id="nm7-tF-HQs"/>
+                            <constraint firstItem="P94-Y4-OmJ" firstAttribute="top" secondItem="9cm-cN-po7" secondAttribute="bottom" id="nm7-tF-HQs"/>
                             <constraint firstAttribute="trailingMargin" secondItem="P94-Y4-OmJ" secondAttribute="trailing" constant="-16" id="rac-ib-9pW"/>
                             <constraint firstItem="gZa-yA-RXI" firstAttribute="top" secondItem="9cm-cN-po7" secondAttribute="bottom" constant="20" id="sMc-LL-Fz5"/>
                             <constraint firstItem="P94-Y4-OmJ" firstAttribute="leading" secondItem="gZa-yA-RXI" secondAttribute="trailing" id="wUp-Wg-ss6"/>
                             <constraint firstItem="utn-zX-xs9" firstAttribute="leading" secondItem="9i3-OQ-ybw" secondAttribute="trailing" constant="29" id="xna-ww-7Dq"/>
                         </constraints>
                     </view>
+                    <nil key="simulatedStatusBarMetrics"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
