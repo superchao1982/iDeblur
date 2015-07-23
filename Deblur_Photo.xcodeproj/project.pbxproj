@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5203E4751B53A3D100FB5611 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5203E4741B53A3D100FB5611 /* main.m */; };
-		5203E4781B53A3D100FB5611 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5203E4771B53A3D100FB5611 /* AppDelegate.m */; };
+		5203E4781B53A3D100FB5611 /* STAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5203E4771B53A3D100FB5611 /* STAppDelegate.m */; };
 		5203E47B1B53A3D100FB5611 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5203E47A1B53A3D100FB5611 /* ViewController.mm */; };
 		5203E47E1B53A3D100FB5611 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5203E47C1B53A3D100FB5611 /* Main.storyboard */; };
 		5203E4801B53A3D100FB5611 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5203E47F1B53A3D100FB5611 /* Images.xcassets */; };
@@ -53,8 +53,8 @@
 		5203E46F1B53A3D100FB5611 /* Deblur_Photo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Deblur_Photo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5203E4731B53A3D100FB5611 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5203E4741B53A3D100FB5611 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		5203E4761B53A3D100FB5611 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		5203E4771B53A3D100FB5611 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		5203E4761B53A3D100FB5611 /* STAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STAppDelegate.h; sourceTree = "<group>"; };
+		5203E4771B53A3D100FB5611 /* STAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = STAppDelegate.m; sourceTree = "<group>"; };
 		5203E4791B53A3D100FB5611 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		5203E47A1B53A3D100FB5611 /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
 		5203E47D1B53A3D100FB5611 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -157,8 +157,8 @@
 		5203E4711B53A3D100FB5611 /* Deblur_Photo */ = {
 			isa = PBXGroup;
 			children = (
-				5203E4761B53A3D100FB5611 /* AppDelegate.h */,
-				5203E4771B53A3D100FB5611 /* AppDelegate.m */,
+				5203E4761B53A3D100FB5611 /* STAppDelegate.h */,
+				5203E4771B53A3D100FB5611 /* STAppDelegate.m */,
 				524E36641B592C010083A0A5 /* PrecompilePrefixHeader.pch */,
 				521529A01B5A6FE500FF84DF /* Models */,
 				52F1BDAC1B5E610A00F8364B /* Views */,
@@ -455,7 +455,7 @@
 				5203E47B1B53A3D100FB5611 /* ViewController.mm in Sources */,
 				5281865F1B60D57300F78DE2 /* STGaussBlurKernel.mm in Sources */,
 				524E36621B592B360083A0A5 /* UIImage+OpenCV.mm in Sources */,
-				5203E4781B53A3D100FB5611 /* AppDelegate.m in Sources */,
+				5203E4781B53A3D100FB5611 /* STAppDelegate.m in Sources */,
 				521529A91B5A73EF00FF84DF /* STFocusBlurKernel.mm in Sources */,
 				52DDBEC31B5E734F00465761 /* STMotionBlurKernel.mm in Sources */,
 				521529A31B5A708B00FF84DF /* STKernel.mm in Sources */,
@@ -602,7 +602,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "37195fcb-df91-474b-903e-811d1afa41e8";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -621,7 +621,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "37195fcb-df91-474b-903e-811d1afa41e8";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};

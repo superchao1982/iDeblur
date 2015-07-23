@@ -6,13 +6,13 @@
 //  Copyright (c) 2015 brekhunchenko. All rights reserved.
 //
 
-#import "AppDelegate.h"
+#import "STAppDelegate.h"
 
-@interface AppDelegate ()
+@interface STAppDelegate ()
 
 @end
 
-@implementation AppDelegate
+@implementation STAppDelegate
 
 #pragma mark -
 #pragma mark - UIApplication Delegate
