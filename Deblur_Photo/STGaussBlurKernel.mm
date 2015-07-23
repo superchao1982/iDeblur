@@ -24,6 +24,8 @@
     self = [super init];
     if (self) {
         _radius = radius;
+        
+        [self _updateKernelImageMatrix];
     }
     return self;
 }

@@ -76,7 +76,7 @@
     return ret;
 }
 
-- (cv::Mat)cvMatFromUIImage:(UIImage *)image
++ (cv::Mat)cvMatFromUIImage:(UIImage *)image
 {
     CGColorSpaceRef colorSpace = CGImageGetColorSpace(image.CGImage);
     CGFloat cols = image.size.width;
@@ -99,7 +99,7 @@
     return cvMat;
 }
 
-- (cv::Mat)cvMatGrayFromUIImage:(UIImage *)image
++ (cv::Mat)cvMatGrayFromUIImage:(UIImage *)image
 {
     CGColorSpaceRef colorSpace = CGImageGetColorSpace(image.CGImage);
     CGFloat cols = image.size.width;

@@ -78,11 +78,8 @@ typedef NS_ENUM(NSInteger, STBlurType) {
     [self setCurrentBlurType:STBlurTypeFocus];
     
     //TEMP
-    _originalImage = imread("/Users/santatnt/Desktop/3ca5ceda07d41d58574075ddea1a73ad.jpg", IMREAD_UNCHANGED);
-    if (_originalImage.channels() == 3) {
-        cv::cvtColor(_originalImage, _originalImage, CV_BGR2RGB);
-    }
-    cv::cvtColor(_originalImage, _previewImage, CV_RGB2GRAY);
+    _originalImage = [UIImage cvMatFromUIImage:[UIImage imageNamed:@"defocused_image_example"]];
+    cv::cvtColor(_originalImage, _previewImage, CV_RGBA2GRAY);
     _imageView.image = [UIImage imageWithCVMat:_originalImage];
     _showOriginButton.enabled = YES;
 }
@@ -239,7 +236,7 @@ typedef NS_ENUM(NSInteger, STBlurType) {
 {
     //TODO: Check image size
     UIImage* selectedImage = [info objectForKey:UIImagePickerControllerOriginalImage];
-    _originalImage = [selectedImage cvMatFromUIImage:selectedImage];
+    _originalImage = [UIImage cvMatFromUIImage:selectedImage];
     if (_originalImage.channels() == 3) {
         cv::cvtColor(_originalImage, _previewImage, CV_RGB2GRAY);
     } else if (_originalImage.channels() == 4) {
