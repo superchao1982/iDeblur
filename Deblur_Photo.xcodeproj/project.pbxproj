@@ -29,6 +29,7 @@
 		528186631B60D8A100F78DE2 /* STGaussBlurParametersView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 528186621B60D8A100F78DE2 /* STGaussBlurParametersView.mm */; };
 		528186651B60D8AC00F78DE2 /* STGaussBlurParametersView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 528186641B60D8AC00F78DE2 /* STGaussBlurParametersView.xib */; };
 		528186671B60E83D00F78DE2 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 528186661B60E83D00F78DE2 /* Main_iPhone.storyboard */; };
+		5281869C1B60FCD900F78DE2 /* UINavigationController+OrientationLock.m in Sources */ = {isa = PBXBuildFile; fileRef = 5281869B1B60FCD900F78DE2 /* UINavigationController+OrientationLock.m */; };
 		52DDBEC31B5E734F00465761 /* STMotionBlurKernel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 52DDBEC21B5E734F00465761 /* STMotionBlurKernel.mm */; };
 		52DDBEC71B5E75A700465761 /* STMotionBlurParametersView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 52DDBEC61B5E75A700465761 /* STMotionBlurParametersView.mm */; };
 		52DDBEC91B5E75B000465761 /* STMotionBlurParametersView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52DDBEC81B5E75B000465761 /* STMotionBlurParametersView.xib */; };
@@ -86,6 +87,8 @@
 		528186621B60D8A100F78DE2 /* STGaussBlurParametersView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = STGaussBlurParametersView.mm; sourceTree = "<group>"; };
 		528186641B60D8AC00F78DE2 /* STGaussBlurParametersView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = STGaussBlurParametersView.xib; sourceTree = "<group>"; };
 		528186661B60E83D00F78DE2 /* Main_iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main_iPhone.storyboard; sourceTree = "<group>"; };
+		5281869A1B60FCD900F78DE2 /* UINavigationController+OrientationLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+OrientationLock.h"; sourceTree = "<group>"; };
+		5281869B1B60FCD900F78DE2 /* UINavigationController+OrientationLock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+OrientationLock.m"; sourceTree = "<group>"; };
 		52DDBEC11B5E734F00465761 /* STMotionBlurKernel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STMotionBlurKernel.h; sourceTree = "<group>"; };
 		52DDBEC21B5E734F00465761 /* STMotionBlurKernel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = STMotionBlurKernel.mm; sourceTree = "<group>"; };
 		52DDBEC51B5E75A700465761 /* STMotionBlurParametersView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STMotionBlurParametersView.h; sourceTree = "<group>"; };
@@ -248,6 +251,8 @@
 			children = (
 				524E36601B592B360083A0A5 /* UIImage+OpenCV.h */,
 				524E36611B592B360083A0A5 /* UIImage+OpenCV.mm */,
+				5281869A1B60FCD900F78DE2 /* UINavigationController+OrientationLock.h */,
+				5281869B1B60FCD900F78DE2 /* UINavigationController+OrientationLock.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -445,6 +450,7 @@
 			files = (
 				528186631B60D8A100F78DE2 /* STGaussBlurParametersView.mm in Sources */,
 				524CA6151B5F949000442F1F /* STWienerFilterOperation.mm in Sources */,
+				5281869C1B60FCD900F78DE2 /* UINavigationController+OrientationLock.m in Sources */,
 				52DDBEC71B5E75A700465761 /* STMotionBlurParametersView.mm in Sources */,
 				5203E47B1B53A3D100FB5611 /* ViewController.mm in Sources */,
 				5281865F1B60D57300F78DE2 /* STGaussBlurKernel.mm in Sources */,
@@ -596,7 +602,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "37195fcb-df91-474b-903e-811d1afa41e8";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -615,7 +621,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "37195fcb-df91-474b-903e-811d1afa41e8";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

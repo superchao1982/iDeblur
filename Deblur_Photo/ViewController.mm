@@ -19,6 +19,8 @@
 #import "STGaussBlurParametersView.h"
 #import "STMotionBlurParametersView.h"
 
+#import "UINavigationController+OrientationLock.h"
+
 using namespace cv;
 using namespace std;
 
@@ -82,6 +84,11 @@ typedef NS_ENUM(NSInteger, STBlurType) {
     cv::cvtColor(_originalImage, _previewImage, CV_RGBA2GRAY);
     _imageView.image = [UIImage imageWithCVMat:_originalImage];
     _showOriginButton.enabled = YES;
+}
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskLandscape;
 }
 
 #pragma mark -
@@ -175,7 +182,12 @@ typedef NS_ENUM(NSInteger, STBlurType) {
         [weakSelf setCurrentBlurType:STBlurTypeGauss];
     }];
     [actionSheet bk_setCancelButtonWithTitle:@"Cancel" handler:nil];
-    [actionSheet showFromBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:sender] animated:YES];
+
+    if (iPad) {
+        [actionSheet showFromBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:sender] animated:YES];
+    } else {
+        [actionSheet showInView:self.view.window];
+    }
 }
 
 - (IBAction)saveButtonAction:(id)sender
