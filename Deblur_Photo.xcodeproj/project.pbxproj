@@ -30,6 +30,7 @@
 		528186651B60D8AC00F78DE2 /* STGaussBlurParametersView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 528186641B60D8AC00F78DE2 /* STGaussBlurParametersView.xib */; };
 		528186671B60E83D00F78DE2 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 528186661B60E83D00F78DE2 /* Main_iPhone.storyboard */; };
 		5281869C1B60FCD900F78DE2 /* UINavigationController+OrientationLock.m in Sources */ = {isa = PBXBuildFile; fileRef = 5281869B1B60FCD900F78DE2 /* UINavigationController+OrientationLock.m */; };
+		5281869F1B6117AD00F78DE2 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 5281869E1B6117AD00F78DE2 /* UIImage+Resize.m */; };
 		52DDBEC31B5E734F00465761 /* STMotionBlurKernel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 52DDBEC21B5E734F00465761 /* STMotionBlurKernel.mm */; };
 		52DDBEC71B5E75A700465761 /* STMotionBlurParametersView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 52DDBEC61B5E75A700465761 /* STMotionBlurParametersView.mm */; };
 		52DDBEC91B5E75B000465761 /* STMotionBlurParametersView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52DDBEC81B5E75B000465761 /* STMotionBlurParametersView.xib */; };
@@ -89,6 +90,8 @@
 		528186661B60E83D00F78DE2 /* Main_iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main_iPhone.storyboard; sourceTree = "<group>"; };
 		5281869A1B60FCD900F78DE2 /* UINavigationController+OrientationLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+OrientationLock.h"; sourceTree = "<group>"; };
 		5281869B1B60FCD900F78DE2 /* UINavigationController+OrientationLock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+OrientationLock.m"; sourceTree = "<group>"; };
+		5281869D1B6117AD00F78DE2 /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
+		5281869E1B6117AD00F78DE2 /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
 		52DDBEC11B5E734F00465761 /* STMotionBlurKernel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STMotionBlurKernel.h; sourceTree = "<group>"; };
 		52DDBEC21B5E734F00465761 /* STMotionBlurKernel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = STMotionBlurKernel.mm; sourceTree = "<group>"; };
 		52DDBEC51B5E75A700465761 /* STMotionBlurParametersView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STMotionBlurParametersView.h; sourceTree = "<group>"; };
@@ -249,6 +252,8 @@
 		524E365F1B592B200083A0A5 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				5281869D1B6117AD00F78DE2 /* UIImage+Resize.h */,
+				5281869E1B6117AD00F78DE2 /* UIImage+Resize.m */,
 				524E36601B592B360083A0A5 /* UIImage+OpenCV.h */,
 				524E36611B592B360083A0A5 /* UIImage+OpenCV.mm */,
 				5281869A1B60FCD900F78DE2 /* UINavigationController+OrientationLock.h */,
@@ -457,6 +462,7 @@
 				524E36621B592B360083A0A5 /* UIImage+OpenCV.mm in Sources */,
 				5203E4781B53A3D100FB5611 /* STAppDelegate.m in Sources */,
 				521529A91B5A73EF00FF84DF /* STFocusBlurKernel.mm in Sources */,
+				5281869F1B6117AD00F78DE2 /* UIImage+Resize.m in Sources */,
 				52DDBEC31B5E734F00465761 /* STMotionBlurKernel.mm in Sources */,
 				521529A31B5A708B00FF84DF /* STKernel.mm in Sources */,
 				5203E4751B53A3D100FB5611 /* main.m in Sources */,

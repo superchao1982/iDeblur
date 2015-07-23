@@ -20,6 +20,7 @@
 #import "STMotionBlurParametersView.h"
 
 #import "UINavigationController+OrientationLock.h"
+#import "UIImage+Resize.h"
 
 using namespace cv;
 using namespace std;
@@ -246,8 +247,11 @@ typedef NS_ENUM(NSInteger, STBlurType) {
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    //TODO: Check image size
     UIImage* selectedImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+    CGFloat maxImageSize = 1024.0f;
+    if (selectedImage.size.width > maxImageSize || selectedImage.size.height > maxImageSize) {
+        selectedImage = [selectedImage resizedImageToFitInSize:CGSizeMake(maxImageSize, maxImageSize) scaleIfSmaller:YES];
+    }
     _originalImage = [UIImage cvMatFromUIImage:selectedImage];
     if (_originalImage.channels() == 3) {
         cv::cvtColor(_originalImage, _previewImage, CV_RGB2GRAY);
