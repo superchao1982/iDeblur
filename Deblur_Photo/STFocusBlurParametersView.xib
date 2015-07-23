@@ -11,10 +11,10 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="chA-qX-RCY">
-                    <rect key="frame" x="52" y="19" width="100" height="100"/>
+                    <rect key="frame" x="52" y="35" width="100" height="100"/>
                 </imageView>
-                <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="10" minValue="0.0" maxValue="50" translatesAutoresizingMaskIntoConstraints="NO" id="kwU-yK-4SQ" userLabel="Radius Horizontal Slider">
-                    <rect key="frame" x="6" y="170" width="184" height="31"/>
+                <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.10000000000000001" minValue="0.10000000000000001" maxValue="50" translatesAutoresizingMaskIntoConstraints="NO" id="kwU-yK-4SQ" userLabel="Radius Horizontal Slider">
+                    <rect key="frame" x="6" y="186" width="184" height="31"/>
                     <color key="minimumTrackTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
                         <action selector="radiusSliderValueChanged:" destination="iN0-l3-epB" eventType="valueChanged" id="tnc-C6-KnR"/>
@@ -22,8 +22,8 @@
                         <action selector="sliderDidEndEditing:" destination="iN0-l3-epB" eventType="touchUpInside" id="pry-3b-19L"/>
                     </connections>
                 </slider>
-                <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="Xr4-Wq-Zcy" userLabel="Edge Feather Horizontal Slider">
-                    <rect key="frame" x="10" y="254" width="184" height="31"/>
+                <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.10000000000000001" minValue="0.10000000000000001" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="Xr4-Wq-Zcy" userLabel="Edge Feather Horizontal Slider">
+                    <rect key="frame" x="10" y="260" width="184" height="31"/>
                     <color key="minimumTrackTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
                         <action selector="edgeFeatherValueChanged:" destination="iN0-l3-epB" eventType="valueChanged" id="IAh-Hg-mAN"/>
@@ -32,25 +32,25 @@
                     </connections>
                 </slider>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q8r-0w-AQm">
-                    <rect key="frame" x="8" y="141" width="184" height="21"/>
+                    <rect key="frame" x="8" y="157" width="184" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Lu-VH-fWm">
-                    <rect key="frame" x="8" y="220" width="184" height="21"/>
+                    <rect key="frame" x="8" y="231" width="184" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fEw-jF-VsI">
-                    <rect key="frame" x="8" y="318" width="188" height="21"/>
+                    <rect key="frame" x="8" y="304" width="188" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-100" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="Fti-fd-4Dv" userLabel="Strengh Horizontal Slider">
-                    <rect key="frame" x="10" y="347" width="184" height="31"/>
+                    <rect key="frame" x="10" y="333" width="184" height="31"/>
                     <color key="minimumTrackTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
                         <action selector="correctionStrengthValueChanged:" destination="iN0-l3-epB" eventType="valueChanged" id="nMA-wp-Hzl"/>
@@ -58,6 +58,12 @@
                         <action selector="sliderDidEndEditing:" destination="iN0-l3-epB" eventType="touchUpInside" id="rKl-QU-0uu"/>
                     </connections>
                 </slider>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Focus Blur" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6wu-Bh-2N8">
+                    <rect key="frame" x="12" y="8" width="176" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" red="0.1215686275" green="0.1215686275" blue="0.1215686275" alpha="1" colorSpace="calibratedRGB"/>
             <nil key="simulatedStatusBarMetrics"/>
