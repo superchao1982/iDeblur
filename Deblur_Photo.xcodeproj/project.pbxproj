@@ -28,6 +28,7 @@
 		5281865F1B60D57300F78DE2 /* STGaussBlurKernel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5281865E1B60D57300F78DE2 /* STGaussBlurKernel.mm */; };
 		528186631B60D8A100F78DE2 /* STGaussBlurParametersView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 528186621B60D8A100F78DE2 /* STGaussBlurParametersView.mm */; };
 		528186651B60D8AC00F78DE2 /* STGaussBlurParametersView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 528186641B60D8AC00F78DE2 /* STGaussBlurParametersView.xib */; };
+		528186671B60E83D00F78DE2 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 528186661B60E83D00F78DE2 /* Main_iPhone.storyboard */; };
 		52DDBEC31B5E734F00465761 /* STMotionBlurKernel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 52DDBEC21B5E734F00465761 /* STMotionBlurKernel.mm */; };
 		52DDBEC71B5E75A700465761 /* STMotionBlurParametersView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 52DDBEC61B5E75A700465761 /* STMotionBlurParametersView.mm */; };
 		52DDBEC91B5E75B000465761 /* STMotionBlurParametersView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52DDBEC81B5E75B000465761 /* STMotionBlurParametersView.xib */; };
@@ -84,6 +85,7 @@
 		528186611B60D8A100F78DE2 /* STGaussBlurParametersView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STGaussBlurParametersView.h; sourceTree = "<group>"; };
 		528186621B60D8A100F78DE2 /* STGaussBlurParametersView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = STGaussBlurParametersView.mm; sourceTree = "<group>"; };
 		528186641B60D8AC00F78DE2 /* STGaussBlurParametersView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = STGaussBlurParametersView.xib; sourceTree = "<group>"; };
+		528186661B60E83D00F78DE2 /* Main_iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main_iPhone.storyboard; sourceTree = "<group>"; };
 		52DDBEC11B5E734F00465761 /* STMotionBlurKernel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STMotionBlurKernel.h; sourceTree = "<group>"; };
 		52DDBEC21B5E734F00465761 /* STMotionBlurKernel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = STMotionBlurKernel.mm; sourceTree = "<group>"; };
 		52DDBEC51B5E75A700465761 /* STMotionBlurParametersView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STMotionBlurParametersView.h; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 				524E365F1B592B200083A0A5 /* Categories */,
 				524E365E1B592B150083A0A5 /* Other */,
 				5203E47C1B53A3D100FB5611 /* Main.storyboard */,
+				528186661B60E83D00F78DE2 /* Main_iPhone.storyboard */,
 				5203E47F1B53A3D100FB5611 /* Images.xcassets */,
 				5203E4811B53A3D100FB5611 /* LaunchScreen.xib */,
 				5203E4981B53A3F800FB5611 /* Libraries */,
@@ -388,6 +391,7 @@
 				528186651B60D8AC00F78DE2 /* STGaussBlurParametersView.xib in Resources */,
 				5203E4831B53A3D100FB5611 /* LaunchScreen.xib in Resources */,
 				5203E4801B53A3D100FB5611 /* Images.xcassets in Resources */,
+				528186671B60E83D00F78DE2 /* Main_iPhone.storyboard in Resources */,
 				52DDBEC91B5E75B000465761 /* STMotionBlurParametersView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -591,6 +595,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "37195fcb-df91-474b-903e-811d1afa41e8";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -609,6 +614,7 @@
 				INFOPLIST_FILE = Deblur_Photo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "37195fcb-df91-474b-903e-811d1afa41e8";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
