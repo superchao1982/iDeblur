@@ -25,6 +25,9 @@
 		525DCAE21B593112002E456F /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 525DCAE11B593112002E456F /* CoreVideo.framework */; };
 		525DCAE41B593116002E456F /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 525DCAE31B593116002E456F /* CoreMedia.framework */; };
 		525DCAE61B59311A002E456F /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 525DCAE51B59311A002E456F /* AssetsLibrary.framework */; };
+		5281865F1B60D57300F78DE2 /* STGaussBlurKernel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5281865E1B60D57300F78DE2 /* STGaussBlurKernel.mm */; };
+		528186631B60D8A100F78DE2 /* STGaussBlurParametersView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 528186621B60D8A100F78DE2 /* STGaussBlurParametersView.mm */; };
+		528186651B60D8AC00F78DE2 /* STGaussBlurParametersView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 528186641B60D8AC00F78DE2 /* STGaussBlurParametersView.xib */; };
 		52DDBEC31B5E734F00465761 /* STMotionBlurKernel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 52DDBEC21B5E734F00465761 /* STMotionBlurKernel.mm */; };
 		52DDBEC71B5E75A700465761 /* STMotionBlurParametersView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 52DDBEC61B5E75A700465761 /* STMotionBlurParametersView.mm */; };
 		52DDBEC91B5E75B000465761 /* STMotionBlurParametersView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52DDBEC81B5E75B000465761 /* STMotionBlurParametersView.xib */; };
@@ -76,6 +79,11 @@
 		525DCAE11B593112002E456F /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		525DCAE31B593116002E456F /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		525DCAE51B59311A002E456F /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		5281865D1B60D57300F78DE2 /* STGaussBlurKernel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STGaussBlurKernel.h; sourceTree = "<group>"; };
+		5281865E1B60D57300F78DE2 /* STGaussBlurKernel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = STGaussBlurKernel.mm; sourceTree = "<group>"; };
+		528186611B60D8A100F78DE2 /* STGaussBlurParametersView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STGaussBlurParametersView.h; sourceTree = "<group>"; };
+		528186621B60D8A100F78DE2 /* STGaussBlurParametersView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = STGaussBlurParametersView.mm; sourceTree = "<group>"; };
+		528186641B60D8AC00F78DE2 /* STGaussBlurParametersView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = STGaussBlurParametersView.xib; sourceTree = "<group>"; };
 		52DDBEC11B5E734F00465761 /* STMotionBlurKernel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STMotionBlurKernel.h; sourceTree = "<group>"; };
 		52DDBEC21B5E734F00465761 /* STMotionBlurKernel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = STMotionBlurKernel.mm; sourceTree = "<group>"; };
 		52DDBEC51B5E75A700465761 /* STMotionBlurParametersView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STMotionBlurParametersView.h; sourceTree = "<group>"; };
@@ -208,6 +216,8 @@
 				521529A81B5A73EF00FF84DF /* STFocusBlurKernel.mm */,
 				52DDBEC11B5E734F00465761 /* STMotionBlurKernel.h */,
 				52DDBEC21B5E734F00465761 /* STMotionBlurKernel.mm */,
+				5281865D1B60D57300F78DE2 /* STGaussBlurKernel.h */,
+				5281865E1B60D57300F78DE2 /* STGaussBlurKernel.mm */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -239,6 +249,16 @@
 			name = Categories;
 			sourceTree = "<group>";
 		};
+		528186601B60D88800F78DE2 /* Gauss Blur Parameters View */ = {
+			isa = PBXGroup;
+			children = (
+				528186611B60D8A100F78DE2 /* STGaussBlurParametersView.h */,
+				528186621B60D8A100F78DE2 /* STGaussBlurParametersView.mm */,
+				528186641B60D8AC00F78DE2 /* STGaussBlurParametersView.xib */,
+			);
+			name = "Gauss Blur Parameters View";
+			sourceTree = "<group>";
+		};
 		52DDBEC01B5E71CE00465761 /* Focus Blur Parameters View */ = {
 			isa = PBXGroup;
 			children = (
@@ -262,6 +282,7 @@
 		52F1BDAC1B5E610A00F8364B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				528186601B60D88800F78DE2 /* Gauss Blur Parameters View */,
 				52DDBEC41B5E747700465761 /* Motion Blur Parameters View */,
 				52DDBEC01B5E71CE00465761 /* Focus Blur Parameters View */,
 			);
@@ -364,6 +385,7 @@
 			files = (
 				5203E47E1B53A3D100FB5611 /* Main.storyboard in Resources */,
 				52F1BDB11B5E615800F8364B /* STFocusBlurParametersView.xib in Resources */,
+				528186651B60D8AC00F78DE2 /* STGaussBlurParametersView.xib in Resources */,
 				5203E4831B53A3D100FB5611 /* LaunchScreen.xib in Resources */,
 				5203E4801B53A3D100FB5611 /* Images.xcassets in Resources */,
 				52DDBEC91B5E75B000465761 /* STMotionBlurParametersView.xib in Resources */,
@@ -417,9 +439,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				528186631B60D8A100F78DE2 /* STGaussBlurParametersView.mm in Sources */,
 				524CA6151B5F949000442F1F /* STWienerFilterOperation.mm in Sources */,
 				52DDBEC71B5E75A700465761 /* STMotionBlurParametersView.mm in Sources */,
 				5203E47B1B53A3D100FB5611 /* ViewController.mm in Sources */,
+				5281865F1B60D57300F78DE2 /* STGaussBlurKernel.mm in Sources */,
 				524E36621B592B360083A0A5 /* UIImage+OpenCV.mm in Sources */,
 				5203E4781B53A3D100FB5611 /* AppDelegate.m in Sources */,
 				521529A91B5A73EF00FF84DF /* STFocusBlurKernel.mm in Sources */,

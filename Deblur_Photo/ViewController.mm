@@ -16,6 +16,7 @@
 #import "STFocusBlurKernel.h"
 
 #import "STFocusBlurParametersView.h"
+#import "STGaussBlurParametersView.h"
 #import "STMotionBlurParametersView.h"
 
 using namespace cv;
@@ -23,10 +24,11 @@ using namespace std;
 
 typedef NS_ENUM(NSInteger, STBlurType) {
     STBlurTypeFocus,
-    STBlurTypeMotion
+    STBlurTypeMotion,
+    STBlurTypeGauss
 };
 
-@interface ViewController ()  < UIImagePickerControllerDelegate, UINavigationControllerDelegate, STFocusBlurParametersViewDelegate, STMotionBlurParametersViewDelegate, UIScrollViewDelegate >
+@interface ViewController ()  < UIImagePickerControllerDelegate, UINavigationControllerDelegate, STFocusBlurParametersViewDelegate, STMotionBlurParametersViewDelegate, STGaussBlurParametersViewDelegate, UIScrollViewDelegate >
 
 @property (nonatomic, assign) STBlurType currentBlutType;
 
@@ -39,6 +41,7 @@ typedef NS_ENUM(NSInteger, STBlurType) {
 @property (weak, nonatomic) IBOutlet UIView *blurParametersContainerView;
 @property (nonatomic, strong) STFocusBlurParametersView* focusBlurParametersView;
 @property (nonatomic, strong) STMotionBlurParametersView* motionBlurParametersView;
+@property (nonatomic, strong) STGaussBlurParametersView* gaussBlurParametersView;
 
 @property (nonatomic, strong) STWienerFilter* wienerFilter;
 @property (nonatomic, assign) cv::Mat originalImage;
@@ -70,6 +73,7 @@ typedef NS_ENUM(NSInteger, STBlurType) {
     [self _setUpScrollView];
     [self _setUpFocusBlurParametersView];
     [self _setUpMotionBlurParametersView];
+    [self _setUpGaussBlurParametersView];
     
     [self setCurrentBlurType:STBlurTypeFocus];
     
@@ -90,6 +94,13 @@ typedef NS_ENUM(NSInteger, STBlurType) {
 {
     _containerScrollView.minimumZoomScale = 1.0f;
     _containerScrollView.maximumZoomScale = 2.0f;
+}
+
+- (void)_setUpGaussBlurParametersView
+{
+    _gaussBlurParametersView = [STGaussBlurParametersView new];
+    _gaussBlurParametersView.delegate = self;
+    [_blurParametersContainerView addSubview:_gaussBlurParametersView];
 }
 
 - (void)_setUpFocusBlurParametersView
@@ -115,6 +126,7 @@ typedef NS_ENUM(NSInteger, STBlurType) {
     
     _focusBlurParametersView.hidden = (_currentBlutType != STBlurTypeFocus);
     _motionBlurParametersView.hidden = (_currentBlutType != STBlurTypeMotion);
+    _gaussBlurParametersView.hidden = (_currentBlutType != STBlurTypeGauss);
 }
 
 #pragma mark -
@@ -162,6 +174,9 @@ typedef NS_ENUM(NSInteger, STBlurType) {
     [actionSheet bk_addButtonWithTitle:@"Motion Blur" handler:^{
         [weakSelf setCurrentBlurType:STBlurTypeMotion];
     }];
+    [actionSheet bk_addButtonWithTitle:@"Gaussian Blur" handler:^{
+        [weakSelf setCurrentBlurType:STBlurTypeGauss];
+    }];
     [actionSheet bk_setCancelButtonWithTitle:@"Cancel" handler:nil];
     [actionSheet showFromBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:sender] animated:YES];
 }
@@ -196,25 +211,7 @@ typedef NS_ENUM(NSInteger, STBlurType) {
 - (void)focusBlurParametersView:(STFocusBlurParametersView *)parametersView
       didChangeKernelParameters:(STFocusBlurKernel *)kernel
 {
-    _statusLabel.text = @"Applying preview filter.";
-    _saveButton.enabled = NO;
-    [_activityIndicator startAnimating];
-    
-    __weak typeof(self) weakSelf = self;
-    [self _applyWienerForImage:_previewImage
-                withCompletion:^(cv::Mat image) {
-                    weakSelf.imageView.image = [UIImage imageWithCVMat:image];
-                    
-                    weakSelf.statusLabel.text = @"Applying full resolution filter.";
-                    
-                    [self _applyWienerForImage:_originalImage withCompletion:^(cv::Mat image) {
-                        weakSelf.statusLabel.text = @"";
-                        [weakSelf.activityIndicator stopAnimating];
-                        
-                        weakSelf.imageView.image = [UIImage imageWithCVMat:image];
-                        weakSelf.saveButton.enabled = YES;
-                    }];
-                }];
+    [self _startImageProccessing];
 }
 
 #pragma mark -
@@ -223,25 +220,16 @@ typedef NS_ENUM(NSInteger, STBlurType) {
 - (void)motionBlurParametersView:(STMotionBlurParametersView *)view
        didChangeKernelParameters:(STMotionBlurKernel *)kernel
 {
-    _statusLabel.text = @"Applying preview filter.";
-    _saveButton.enabled = NO;
-    [_activityIndicator startAnimating];
-    
-    __weak typeof(self) weakSelf = self;
-    [self _applyWienerForImage:_previewImage
-                withCompletion:^(cv::Mat image) {
-                    weakSelf.imageView.image = [UIImage imageWithCVMat:image];
-                    
-                    weakSelf.statusLabel.text = @"Applying full resolution filter.";
-                    
-                    [self _applyWienerForImage:_originalImage withCompletion:^(cv::Mat image) {
-                        weakSelf.statusLabel.text = @"";
-                        [weakSelf.activityIndicator stopAnimating];
-                        
-                        weakSelf.imageView.image = [UIImage imageWithCVMat:image];
-                        weakSelf.saveButton.enabled = YES;
-                    }];
-                }];
+    [self _startImageProccessing];
+}
+
+#pragma mark -
+#pragma mark - STGaussBlurParametersView Delegate
+
+- (void)gaussBlurParametersView:(STGaussBlurParametersView *)view
+      didChangeKernelParameters:(STGaussBlurKernel *)kernel
+{
+    [self _startImageProccessing];
 }
 
 #pragma mark -
@@ -286,6 +274,29 @@ typedef NS_ENUM(NSInteger, STBlurType) {
 #pragma mark -
 #pragma mark - Helpers
 
+- (void)_startImageProccessing
+{
+    _statusLabel.text = @"Applying preview filter.";
+    _saveButton.enabled = NO;
+    [_activityIndicator startAnimating];
+    
+    __weak typeof(self) weakSelf = self;
+    [self _applyWienerForImage:_previewImage
+                withCompletion:^(cv::Mat image) {
+                    weakSelf.imageView.image = [UIImage imageWithCVMat:image];
+                    
+                    weakSelf.statusLabel.text = @"Applying full resolution filter.";
+                    
+                    [self _applyWienerForImage:_originalImage withCompletion:^(cv::Mat image) {
+                        weakSelf.statusLabel.text = @"";
+                        [weakSelf.activityIndicator stopAnimating];
+                        
+                        weakSelf.imageView.image = [UIImage imageWithCVMat:image];
+                        weakSelf.saveButton.enabled = YES;
+                    }];
+                }];
+}
+
 - (void)_applyWienerForImage:(cv::Mat)image withCompletion:(void (^)(cv::Mat image))completionBlock
 {
     STKernel* currentKernel = [self _currentKernel];
@@ -306,7 +317,9 @@ typedef NS_ENUM(NSInteger, STBlurType) {
 {
     if (_currentBlutType == STBlurTypeFocus) {
         return _focusBlurParametersView.kernel;
-    } else {
+    } else if (_currentBlutType == STBlurTypeGauss) {
+        return _gaussBlurParametersView.kernel;
+    }else {
         return _motionBlurParametersView.kernel;
     }
 }

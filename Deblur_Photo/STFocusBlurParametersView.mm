@@ -95,7 +95,7 @@
     __weak typeof(self) weakSelf = self;
     _timer = [NSTimer bk_scheduledTimerWithTimeInterval:kEditingTimeThreshold block:^(NSTimer *timer) {
         if ([weakSelf.delegate respondsToSelector:@selector(focusBlurParametersView:didChangeKernelParameters:)]) {
-            [weakSelf.delegate focusBlurParametersView:weakSelf didChangeKernelParameters:_kernel];
+            [weakSelf.delegate focusBlurParametersView:weakSelf didChangeKernelParameters:weakSelf.kernel];
         }
     }repeats:NO];
 }

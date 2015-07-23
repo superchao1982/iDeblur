@@ -32,7 +32,7 @@
                                           owner:self
                                         options:nil] firstObject];
     if (self) {
-        _kernel = [[STMotionBlurKernel alloc] initMotionBlurKernelWithLength:10.0f angle:0.0f];
+        _kernel = [[STMotionBlurKernel alloc] initMotionBlurKernelWithLength:0.0f angle:0.0f];
         
         [self _updateUIForKernel:_kernel];
     }
@@ -64,7 +64,7 @@
     _timer = [NSTimer bk_scheduledTimerWithTimeInterval:kEditingTimeThreshold block:^(NSTimer *timer) {
         if ([weakSelf.delegate respondsToSelector:@selector(motionBlurParametersView:didChangeKernelParameters:)]) {
             [weakSelf.delegate motionBlurParametersView:weakSelf
-                          didChangeKernelParameters:_kernel];
+                          didChangeKernelParameters:weakSelf.kernel];
         }
     } repeats:NO];
 }
@@ -81,7 +81,7 @@
     _timer = [NSTimer bk_scheduledTimerWithTimeInterval:kEditingTimeThreshold block:^(NSTimer *timer) {
         if ([weakSelf.delegate respondsToSelector:@selector(motionBlurParametersView:didChangeKernelParameters:)]) {
             [weakSelf.delegate motionBlurParametersView:weakSelf
-                          didChangeKernelParameters:_kernel];
+                          didChangeKernelParameters:weakSelf.kernel];
         }
     } repeats:NO];
 }
