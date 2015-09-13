@@ -597,6 +597,7 @@
 			baseConfigurationReference = 01CD10DED4470617BD1358D0 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Yaroslav Brekhunchenko (9JLRSR336H)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Deblur_Photo",
@@ -607,8 +608,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "37195fcb-df91-474b-903e-811d1afa41e8";
-				TARGETED_DEVICE_FAMILY = 2;
+				PROVISIONING_PROFILE = "0038b809-e26b-47b3-87d6-597bde7091f4";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -617,6 +618,7 @@
 			baseConfigurationReference = 66BC7C58F13FA911D959F041 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Yaroslav Brekhunchenko (9JLRSR336H)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Deblur_Photo",
@@ -626,8 +628,8 @@
 				INFOPLIST_FILE = Deblur_Photo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "37195fcb-df91-474b-903e-811d1afa41e8";
-				TARGETED_DEVICE_FAMILY = 2;
+				PROVISIONING_PROFILE = "0038b809-e26b-47b3-87d6-597bde7091f4";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

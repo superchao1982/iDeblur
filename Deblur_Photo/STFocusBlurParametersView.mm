@@ -9,7 +9,7 @@
 #import "STFocusBlurParametersView.h"
 #import <NSTimer+BlocksKit.h>
 
-#define kEditingTimeThreshold 0.2f
+#define kEditingTimeThreshold 0.3f
 
 @interface STFocusBlurParametersView()
 

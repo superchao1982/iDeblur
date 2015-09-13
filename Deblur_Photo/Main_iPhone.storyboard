@@ -155,6 +155,8 @@
                         <outlet property="blurParametersContainerView" destination="Cfy-ng-yxo" id="ojE-ZB-M8I"/>
                         <outlet property="containerScrollView" destination="gZa-yA-RXI" id="rvE-Hz-awD"/>
                         <outlet property="imageView" destination="eML-Vt-d5S" id="ObS-HH-7Vg"/>
+                        <outlet property="saveButton" destination="P8a-dh-eQ3" id="tlh-eh-sz8"/>
+                        <outlet property="showOriginButton" destination="mJt-6C-y3Q" id="cqW-c3-ykZ"/>
                         <outlet property="statusLabel" destination="9i3-OQ-ybw" id="gOZ-93-CcO"/>
                     </connections>
                 </viewController>
